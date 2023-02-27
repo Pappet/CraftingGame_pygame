@@ -31,6 +31,17 @@ class Slot:
             print("this Slot is empty!")
             return
 
+    def is_clicked(self, pos):
+        if self.x <= pos[0] < self.x+self.width and self.y <= pos[1] < self.y+self.height:
+            self.selected = True
+            return True
+        else:
+            self.selected = False
+            return False
+
+    def item_in_slot(self):
+        return self.item
+
     def draw(self, surface):
         pygame.draw.rect(surface, color.white, self.rect, 1)
         if not self.is_empty():

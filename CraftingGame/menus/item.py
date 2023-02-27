@@ -1,6 +1,5 @@
-from Inventory.item_types import ItemType
+from menus.item_types import ItemType
 import pygame
-import random
 import helper.color as color
 
 
@@ -13,14 +12,14 @@ class Item():
         self.category = category
         self.description = description
 
+    def get_image(self):
+        return self.image
+
     def get_name(self):
         return self.name
 
     def get_category(self):
         return self.category
-
-    def get_image(self):
-        return self.image
 
     def get_description(self):
         return self.description

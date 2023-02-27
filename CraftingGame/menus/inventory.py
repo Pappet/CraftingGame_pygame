@@ -1,33 +1,29 @@
-from Inventory.slot import Slot
+from menus.slot import Slot
 import pygame
-import random
 import helper.color as color
+from .menu import Menu
 
 
-class Inventory:
-    def __init__(self, x, y, slot_size, slot_spacing, rows, cols, edge_spacing, title_spacing, title):
-        self.x = x
-        self.y = y
+class Inventory(Menu):
+    def __init__(self, x, y, width, height, slot_size, slot_spacing, rows, cols, edge_spacing, title_spacing, title):
+        super().__init__(x=x, y=y, width=width, height=height,
+                         edge_spacing=edge_spacing, title_spacing=title_spacing, title=title)
+
         self.slot_size = slot_size
         self.slot_spacing = slot_spacing
-        self.edge_spacing = edge_spacing
-        self.title_spacing = title_spacing
-        self.title = title
         self.rows = rows
         self.cols = cols
         self.width = self.slot_size*self.cols + \
             (self.slot_spacing*self.cols) - \
-            self.slot_spacing + (edge_spacing*2)
+            self.slot_spacing + (self.edge_spacing*2)
+
         self.height = self.slot_size*self.rows + \
-            (self.slot_spacing*self.rows) - \
-            self.slot_spacing + (edge_spacing*2) + self.title_spacing
-        self.slots = []
-        self.create_slots()
+            (self.slot_spacing*self.rows) - self.slot_spacing + \
+            (self.edge_spacing*2) + self.title_spacing
 
         self.image = pygame.Surface((self.width, self.height))
-        self.bg_color = color.gray
-        # change the font to a system font that is available on your system
-        self.font = pygame.font.SysFont("arial", self.title_spacing)
+        self.slots = []
+        self.create_slots()
 
     def create_slots(self):
         for row in range(self.rows):
@@ -44,27 +40,6 @@ class Inventory:
 
     def get_slot_index(self, slot):
         return self.slots.index(slot)
-
-    def get_selected_item(self, mouse_pos):
-        # convert mouse position to grid coordinates
-        grid_x = (mouse_pos[0] -
-                  self.x) // (self.slot_size + self.slot_spacing)
-        grid_y = (mouse_pos[1] - self.y -
-                  30) // (self.slot_size + self.slot_spacing)
-        # check if mouse position is inside the inventory
-        if 0 <= grid_x < self.cols and 0 <= grid_y < self.rows:
-            # get the selected slot
-            slot = self.slots[grid_y * self.cols + grid_x]
-            # select the slot
-            for s in self.slots:
-                s.selected = False
-            slot.selected = True
-            # get the item in the slot, if any
-            return slot.item
-        # deselect all slots if not clicked on a slot
-        for s in self.slots:
-            s.selected = False
-        return None
 
     def get_last_filled_slot(self):
         for slot in reversed(self.slots):
@@ -94,9 +69,6 @@ class Inventory:
                 slot.remove_item()
                 return True
         return False
-
-    def get_image(self):
-        return self.image
 
     def draw(self, surface):
         self.image.fill(self.bg_color)
