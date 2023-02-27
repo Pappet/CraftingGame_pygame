@@ -8,3 +8,5 @@ class ItemType(Enum):
     TOOL = auto()
     MACHINE = auto()
     FOOD = auto()
+    POTION = auto()
+    WEAPON = auto()

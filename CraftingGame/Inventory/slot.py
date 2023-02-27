@@ -4,8 +4,13 @@ import helper.color as color
 
 class Slot:
     def __init__(self, x, y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
         self.rect = pygame.Rect(x, y, width, height)
         self.item = None
+        self.selected = False  # add a 'selected' property
 
     def is_empty(self):
         return self.item is None
@@ -30,3 +35,8 @@ class Slot:
         pygame.draw.rect(surface, color.white, self.rect, 1)
         if not self.is_empty():
             surface.blit(self.item.get_image(), self.rect.topleft)
+
+         # draw a selection border, if selected
+        if self.selected:
+            pygame.draw.rect(surface, color.gold, (self.x - 2,
+                             self.y - 2, self.width + 4, self.height + 4), 2)

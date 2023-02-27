@@ -45,6 +45,32 @@ class Inventory:
     def get_slot_index(self, slot):
         return self.slots.index(slot)
 
+    def get_selected_item(self, mouse_pos):
+        # convert mouse position to grid coordinates
+        grid_x = (mouse_pos[0] -
+                  self.x) // (self.slot_size + self.slot_spacing)
+        grid_y = (mouse_pos[1] - self.y -
+                  30) // (self.slot_size + self.slot_spacing)
+        # check if mouse position is inside the inventory
+        if 0 <= grid_x < self.cols and 0 <= grid_y < self.rows:
+            # get the selected slot
+            slot = self.slots[grid_y * self.cols + grid_x]
+            # select the slot
+            for s in self.slots:
+                s.selected = False
+            slot.selected = True
+            # get the item in the slot, if any
+            return slot.item
+        # deselect all slots if not clicked on a slot
+        for s in self.slots:
+            s.selected = False
+        return None
+
+    def get_last_filled_slot(self):
+        for slot in reversed(self.slots):
+            if not slot.is_empty():
+                return slot
+
     def get_inventory_space(self):
         return len(self.slots)
 
