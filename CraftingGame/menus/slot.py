@@ -11,6 +11,7 @@ class Slot:
         self.rect = pygame.Rect(x, y, width, height)
         self.item = None
         self.selected = False  # add a 'selected' property
+        self.amount = 0
 
     def is_empty(self):
         return self.item is None
@@ -18,18 +19,27 @@ class Slot:
     def add_item(self, item):
         if self.item == None:
             self.item = item
+            self.amount = 1
         else:
-            print("this Slot is not empty!")
-            return
+            if self.item.id == item.id and self.item.stackable:
+                self.amount += 1
+            else:
+                print("this Slot is not empty and the item is not stackable!")
+                return
 
     def remove_item(self):
         item = self.item
         if item is not None:
-            self.item = None
-            return item
+            if item.stackable and self.amount > 1:
+                self.amount -= 1
+                return item
+            else:
+                self.item = None
+                self.amount = 0
+                return item
         else:
             print("this Slot is empty!")
-            return
+            return None
 
     def is_clicked(self, pos):
         if self.x <= pos[0] < self.x+self.width and self.y <= pos[1] < self.y+self.height:

@@ -97,12 +97,24 @@ class Inventory(Menu):
                 desc_text = font.render(
                     self.selected_slot.item_in_slot().description, True, color.white)
                 image_item = self.selected_slot.item_in_slot().get_image()
+                id_str = str(
+                    self.selected_slot.item_in_slot().id).encode("utf-8").decode("utf-8")
+                print(id_str)
+                # id_text = font.render(id_str, True, color.white)
+                if self.selected_slot.item_in_slot().stackable:
+                    stackable_str = "stackable"
+                else:
+                    stackable_str = "not stackable"
+                stackable_text = font.render(stackable_str, True, color.white)
                 surface.blit(image_item, (self.x +
                                           self.width + self.slot_spacing, self.y))
                 surface.blit(name_text, (self.x +
                                          self.width + self.slot_spacing, self.y + 40))
                 surface.blit(desc_text, (self.x +
                                          self.width + self.slot_spacing, self.y + 60))
+                # surface.blit(id_text, (self.x + self.width + self.slot_spacing, self.y + 80))
+                surface.blit(stackable_text, (self.x +
+                                              self.width + self.slot_spacing, self.y + 100))
 
     def update(self, event):
         if event.type == pygame.KEYDOWN:
@@ -119,8 +131,9 @@ class Inventory(Menu):
             if event.key == pygame.K_x:
                 self.toogle_menu()
                 if not self.active:
-                    self.selected_slot.selected = False
-                    self.selected_slot = None
+                    if self.selected_slot:
+                        self.selected_slot.selected = False
+                        self.selected_slot = None
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if self.active:

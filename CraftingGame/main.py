@@ -42,8 +42,9 @@ menu_manager.add_menu(inventory)
 menu_manager.add_menu(test_menu)
 
 # ---- create inventory and items --------------------------------------------------------
-item1 = Item("Sword", ItemType.WEAPON, "A sharp sword for combat.")
-item2 = Item("Potion", ItemType.POTION, "A magical potion that heals you.")
+item1 = Item(1, "Sword", ItemType.WEAPON, "A sharp sword for combat.", False)
+item2 = Item(2, "Potion", ItemType.POTION,
+             "A magical potion that heals you.", True)
 
 inventory.add_item(item1)
 inventory.add_item(item2)

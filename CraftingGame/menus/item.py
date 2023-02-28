@@ -4,13 +4,15 @@ import helper.color as color
 
 
 class Item():
-    def __init__(self, name, category: ItemType, description):
+    def __init__(self, id, name, category: ItemType, description, stackable):
+        self.id = id
         self.name = name
         # self.image = pygame.image.load(image).convert_alpha()
         self.image = pygame.Surface((32, 32))
         self.image.fill(color.random_color())
         self.category = category
         self.description = description
+        self.stackable = stackable
 
     def get_image(self):
         return self.image
