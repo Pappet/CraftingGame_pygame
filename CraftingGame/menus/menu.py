@@ -34,3 +34,6 @@ class Menu:
             title_surface = self.font.render(self.title, True, color.white)
             surface.blit(title_surface, (self.x - (title_surface.get_width()/2) +
                                          (self.width/2) - (self.edge_spacing/2), self.y + (self.edge_spacing/2)))
+
+    def update(self, event):
+        return

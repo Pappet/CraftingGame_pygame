@@ -56,7 +56,7 @@ while running:
         # the close button on the window was pressed
         if event.type == pygame.QUIT:
             running = False
-        inventory.update(event)
+        menu_manager.update(event)
 
     # clear the screen with black
     screen.fill(color.black)

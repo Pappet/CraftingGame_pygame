@@ -11,3 +11,7 @@ class menus_manager:
     def draw(self, screen):
         for menu in self.menus:
             menu.draw(screen)
+
+    def update(self, event):
+        for menu in self.menus:
+            menu.update(event)

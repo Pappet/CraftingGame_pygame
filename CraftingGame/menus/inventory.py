@@ -27,7 +27,7 @@ class Inventory(Menu):
         self.slots = []
         self.create_slots()
         self.active = active
-        self.selected_item = None
+        self.selected_slot = None
 
     def create_slots(self):
         for row in range(self.rows):
@@ -90,13 +90,13 @@ class Inventory(Menu):
                 slot.draw(surface)
 
             # draw the selected item's info
-            if self.selected_item is not None:
+            if self.selected_slot is not None and self.selected_slot.item_in_slot():
                 font = pygame.font.Font(None, self.menu_font_size)
                 name_text = font.render(
-                    self.selected_item.name, True, color.white)
+                    self.selected_slot.item_in_slot().name, True, color.white)
                 desc_text = font.render(
-                    self.selected_item.description, True, color.white)
-                image_item = self.selected_item.get_image()
+                    self.selected_slot.item_in_slot().description, True, color.white)
+                image_item = self.selected_slot.item_in_slot().get_image()
                 surface.blit(image_item, (self.x +
                                           self.width + self.slot_spacing, self.y))
                 surface.blit(name_text, (self.x +
@@ -117,21 +117,24 @@ class Inventory(Menu):
                         self.remove_item(
                             self.get_last_filled_slot().item)
             if event.key == pygame.K_x:
-
                 self.toogle_menu()
+                if not self.active:
+                    self.selected_slot.selected = False
+                    self.selected_slot = None
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if self.active:
                 # check if left mouse button was pressed
                 if event.button == 1:
-                    selected_item_index = False
+                    selected_slot_index = False
                     # Go through all slots and check if the position of the click is within in one slot
                     for slot in self.slots:
                         if slot.is_clicked(event.pos):
                             # slot was clicked. Set the helper index to true
-                            selected_item_index = True
+                            selected_slot_index = True
                             # set the item in slot
-                            self.selected_item = slot.item_in_slot()
+                            self.selected_slot = slot
+
                         # if no slot was clicked set it to None
-                        if selected_item_index is False:
-                            self.selected_item = None
+                        if selected_slot_index is False:
+                            self.selected_slot = None
