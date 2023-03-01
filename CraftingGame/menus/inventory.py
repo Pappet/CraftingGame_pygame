@@ -61,17 +61,29 @@ class Inventory(Menu):
         return index
 
     def add_item(self, item):
-        for slot in self.slots:
-            if slot.is_empty():
-                slot.add_item(item)
-                return True
+        if item.stackable:
+            for slot in self.slots:
+                if not slot.is_empty():
+                    if slot.item.id == item.id and not None:
+                        slot.add_item(item)
+                        return True
+                else:
+                    if slot.is_empty():
+                        slot.add_item(item)
+                        return True
+        else:
+            for slot in self.slots:
+                if slot.is_empty():
+                    slot.add_item(item)
+                    return True
         return False
 
     def remove_item(self, item):
         for slot in self.slots:
-            if slot.item == item:
-                slot.remove_item()
-                return True
+            if not slot.is_empty():
+                if slot.item.id == item.id and item.stackable:
+                    slot.remove_item()
+                    return True
         return False
 
     def draw(self, surface):
@@ -99,8 +111,8 @@ class Inventory(Menu):
                 image_item = self.selected_slot.item_in_slot().get_image()
                 id_str = str(
                     self.selected_slot.item_in_slot().id).encode("utf-8").decode("utf-8")
-                print(id_str)
-                # id_text = font.render(id_str, True, color.white)
+                amount_text = font.render(
+                    f"Amount: {self.selected_slot.amount}", True, color.white)
                 if self.selected_slot.item_in_slot().stackable:
                     stackable_str = "stackable"
                 else:
@@ -112,7 +124,8 @@ class Inventory(Menu):
                                          self.width + self.slot_spacing, self.y + 40))
                 surface.blit(desc_text, (self.x +
                                          self.width + self.slot_spacing, self.y + 60))
-                # surface.blit(id_text, (self.x + self.width + self.slot_spacing, self.y + 80))
+                surface.blit(amount_text, (self.x + self.width +
+                             self.slot_spacing, self.y + 80))
                 surface.blit(stackable_text, (self.x +
                                               self.width + self.slot_spacing, self.y + 100))
 
@@ -123,11 +136,13 @@ class Inventory(Menu):
                 if event.key == pygame.K_a:
                     if self.get_free_inventory_space() > 0:
                         self.add_item(
-                            Item("TEST", ItemType.RESSOURCE, "THIS IS A TEST ITEM!"))
+                            Item(2, "Potion", ItemType.POTION,
+                                 "A magical potion that heals you.", True))
                 elif event.key == pygame.K_r:
                     if self.get_free_inventory_space() < self.get_inventory_space():
                         self.remove_item(
-                            self.get_last_filled_slot().item)
+                            Item(2, "Potion", ItemType.POTION,
+                                 "A magical potion that heals you.", True))
             if event.key == pygame.K_x:
                 self.toogle_menu()
                 if not self.active:

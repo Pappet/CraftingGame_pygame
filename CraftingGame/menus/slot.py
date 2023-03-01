@@ -12,6 +12,9 @@ class Slot:
         self.item = None
         self.selected = False  # add a 'selected' property
         self.amount = 0
+        # change the font to a system font that is available on your system
+        self.font_size = 10
+        self.font = pygame.font.SysFont("arial", self.font_size)
 
     def is_empty(self):
         return self.item is None
@@ -23,6 +26,7 @@ class Slot:
         else:
             if self.item.id == item.id and self.item.stackable:
                 self.amount += 1
+                print(self.amount)
             else:
                 print("this Slot is not empty and the item is not stackable!")
                 return
@@ -56,7 +60,11 @@ class Slot:
         pygame.draw.rect(surface, color.white, self.rect, 1)
         if not self.is_empty():
             surface.blit(self.item.get_image(), self.rect.topleft)
-
+            if self.item.stackable:
+                amount_text = self.font.render(
+                    f"{self.amount}", True, color.white)
+                surface.blit(
+                    amount_text, (self.x + self.width - self.font_size, self.y + self.height - self.font_size))
          # draw a selection border, if selected
         if self.selected:
             pygame.draw.rect(surface, color.gold, (self.x - 2,
