@@ -1,8 +1,9 @@
 import pygame
 import helper.color as color
 from menus.inventory import Inventory
-from menus.item import Item
-from menus.item_types import ItemType
+from items.item import Item
+from items.item_types import ItemType
+from items.items_manager import ItemsManager
 from menus.menu import Menu
 from menus.menus_manager import menus_manager
 
@@ -42,12 +43,21 @@ menu_manager.add_menu(inventory)
 menu_manager.add_menu(test_menu)
 
 # ---- create inventory and items --------------------------------------------------------
-item1 = Item(1, "Sword", ItemType.WEAPON, "A sharp sword for combat.", False)
-item2 = Item(2, "Potion", ItemType.POTION,
-             "A magical potion that heals you.", True)
+items_manager = ItemsManager()
+items_manager.load_items("CraftingGame/items.json")
+
+item1 = items_manager.get_item_by_id(0)
+item2 = items_manager.get_item_by_id(1)
+item3 = items_manager.get_item_by_id(2)
+item4 = items_manager.get_item_by_id(3)
+item5 = items_manager.get_item_by_id(4)
+
 
 inventory.add_item(item1)
 inventory.add_item(item2)
+inventory.add_item(item3)
+inventory.add_item(item4)
+inventory.add_item(item5)
 
 
 # ---- Haupt-Schleife --------------------------------------------------------

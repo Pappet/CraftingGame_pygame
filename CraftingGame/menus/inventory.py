@@ -2,8 +2,8 @@ from menus.slot import Slot
 import pygame
 import helper.color as color
 from .menu import Menu
-from .item import Item
-from .item_types import ItemType
+from items.item import Item
+from items.item_types import ItemType
 
 
 class Inventory(Menu):
@@ -78,12 +78,13 @@ class Inventory(Menu):
                     return True
         return False
 
-    def remove_item(self, item):
+    def remove_item(self, slot, item):
         for slot in self.slots:
             if not slot.is_empty():
                 if slot.item.id == item.id and item.stackable:
                     slot.remove_item()
                     return True
+
         return False
 
     def draw(self, surface):
@@ -134,15 +135,11 @@ class Inventory(Menu):
             if self.active:
                 # testing the inventory - add and remove an test item
                 if event.key == pygame.K_a:
-                    if self.get_free_inventory_space() > 0:
-                        self.add_item(
-                            Item(2, "Potion", ItemType.POTION,
-                                 "A magical potion that heals you.", True))
+                    if self.get_free_inventory_space() > 0 and self.selected_slot:
+                        self.add_item(self.selected_slot.item)
                 elif event.key == pygame.K_r:
-                    if self.get_free_inventory_space() < self.get_inventory_space():
-                        self.remove_item(
-                            Item(2, "Potion", ItemType.POTION,
-                                 "A magical potion that heals you.", True))
+                    if self.get_free_inventory_space() < self.get_inventory_space() and self.selected_slot:
+                        self.selected = self.selected_slot.remove_item()
             if event.key == pygame.K_x:
                 self.toogle_menu()
                 if not self.active:

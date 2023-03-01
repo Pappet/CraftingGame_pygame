@@ -40,6 +40,7 @@ class Slot:
             else:
                 self.item = None
                 self.amount = 0
+                self.selected = False
                 return item
         else:
             print("this Slot is empty!")
