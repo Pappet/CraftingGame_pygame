@@ -35,10 +35,7 @@ menu_manager = MenuManager()
 inventory = Inventory(0, 0, 100, 100, inventory_slot_size, menu_spacing, inventory_rows,
                       inventory_cols, menu_spacing, menu_font_size, menu_title_spacing, inventory_tile, True)
 
-test_menu = Menu(300, 300, 200, 200, menu_spacing,
-                 menu_font_size, menu_title_spacing, "TEST", True)
 menu_manager.add_menu(inventory)
-menu_manager.add_menu(test_menu)
 
 # ---- create inventory and items --------------------------------------------------------
 items_manager = ItemsManager()

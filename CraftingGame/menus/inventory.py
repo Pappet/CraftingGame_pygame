@@ -118,10 +118,13 @@ class Inventory(Menu):
                     from_slot.amount = diff
             else:
                 # Swap items between source slot and target slot
+                to_slot_amount_buffer = to_slot.amount
+                from_slot_amount_buffer = from_slot.amount
+
                 to_slot.item = from_item
-                to_slot.amount = from_slot.amount
+                to_slot.amount = from_slot_amount_buffer
                 from_slot.item = to_item
-                from_slot.amount = to_slot.amount
+                from_slot.amount = to_slot_amount_buffer
 
     def draw(self, surface):
         if self.active:
@@ -223,4 +226,6 @@ class Inventory(Menu):
                     self.selected_slot = slot_index
                     self.dragging_image = None
                 if slot_index == self.selected_slot:
+                    self.dragging_image = None
+                if slot_index is None:
                     self.dragging_image = None
