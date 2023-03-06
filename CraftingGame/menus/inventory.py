@@ -1,9 +1,9 @@
+from typing import Tuple, Optional
+
 from CraftingGame.menus.slot import Slot
 import pygame
 import CraftingGame.helper.color as color
 from CraftingGame.menus.menu import Menu
-from CraftingGame.items.item import Item
-from CraftingGame.items.item_types import ItemType
 
 
 class Inventory(Menu):
@@ -44,6 +44,12 @@ class Inventory(Menu):
 
     def get_slot_index(self, slot):
         return self.slots.index(slot)
+
+    def get_slot_at_position(self, pos: Tuple[int, int]) -> Optional[int]:
+        for i, slot in enumerate(self.slots):
+            if slot.rect.collidepoint(pos):
+                return slot
+        return None
 
     def get_last_filled_slot(self):
         for slot in reversed(self.slots):
@@ -86,6 +92,36 @@ class Inventory(Menu):
                     return True
 
         return False
+
+    def move_item(self, from_slot: Slot, to_slot: Slot) -> None:
+        from_item = from_slot.item
+        to_item = to_slot.item
+
+        if from_item is not None:
+            if to_item is None:
+                # Move item from source slot to target slot
+                to_slot.item = from_item
+                from_slot.item = None
+                to_slot.amount = from_slot.amount
+                from_slot.amount = 0
+            elif from_item.id == to_item.id and from_item.stackable:
+                # Increment item count if the items are stackable and have the same id
+                total_amount = from_item.amount + to_item.amount
+                if total_amount <= from_item.max_stack_size:
+                    to_slot.item.amount = total_amount
+                    from_slot.item = None
+                    from_slot.amount = 0
+                else:
+                    diff = total_amount - from_item.max_stack_size
+                    to_slot.item.amount = from_item.max_stack_size
+                    from_slot.item.amount = diff
+                    from_slot.amount = diff
+            else:
+                # Swap items between source slot and target slot
+                to_slot.item = from_item
+                to_slot.amount = from_slot.amount
+                from_slot.item = to_item
+                from_slot.amount = to_slot.amount
 
     def draw(self, surface):
         if self.active:
@@ -142,7 +178,7 @@ class Inventory(Menu):
                         if not self.selected_slot.remove_item():
                             self.selected_slot = None
             if event.key == pygame.K_x:
-                self.toogle_menu()
+                self.toggle_menu()
                 if not self.active:
                     if self.selected_slot:
                         self.selected_slot.selected = False
@@ -164,3 +200,19 @@ class Inventory(Menu):
                         # if no slot was clicked set it to None
                         if selected_slot_index is False:
                             self.selected_slot = None
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                pos = pygame.mouse.get_pos()
+                slot_index = self.get_slot_at_position(pos)
+                if slot_index is not None:
+                    self.selected_slot = slot_index
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:
+                pos = pygame.mouse.get_pos()
+                slot_index = self.get_slot_at_position(pos)
+                if slot_index is not None and slot_index != self.selected_slot:
+                    self.move_item(self.selected_slot, slot_index)
+                    self.selected_slot.selected = False
+                    slot_index.selected = True
+                    self.selected_slot = slot_index

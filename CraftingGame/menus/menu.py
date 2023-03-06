@@ -18,7 +18,7 @@ class Menu:
         self.font = pygame.font.SysFont("arial", self.title_spacing)
         self.active = active
 
-    def toogle_menu(self):
+    def toggle_menu(self):
         self.active = not self.active
 
     def get_image(self):

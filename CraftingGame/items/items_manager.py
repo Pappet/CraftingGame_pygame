@@ -1,6 +1,8 @@
 import json
+from typing import List, Optional
 
 from CraftingGame.items.item import Item
+from CraftingGame.items.item_types import ItemType
 
 
 class ItemsManager:
@@ -16,9 +18,23 @@ class ItemsManager:
                         item_data['category'], item_data['description'], item_data['stackable'])
             self.items.append(item)
 
-    def get_item_by_id(self, item_id):
+    def get_item_by_id(self, item_id) -> Optional[Item]:
         for item in self.items:
             if item.id == item_id:
                 return item
 
         return None
+
+    def get_items_by_category(self, category: ItemType) -> List[Item]:
+        result = []
+        for item in self.items:
+            if item.category == category:
+                result.append(item)
+        return result
+
+    def get_items_by_name(self, name: str) -> List[Item]:
+        result = []
+        for item in self.items:
+            if name.lower() in item.name.lower():
+                result.append(item)
+        return result
