@@ -17,7 +17,10 @@ class Slot:
         self.font = pygame.font.SysFont("arial", self.font_size)
 
     def is_empty(self):
-        return self.item is None
+        if self.item:
+            return False
+        else:
+            return True
 
     def add_item(self, item):
         if self.item is None:
