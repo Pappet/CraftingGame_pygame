@@ -1,4 +1,4 @@
-class menus_manager:
+class MenuManager:
     def __init__(self) -> None:
         self.menus = []
 

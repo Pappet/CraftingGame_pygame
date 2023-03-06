@@ -1,6 +1,6 @@
 import json
 
-from .item import Item
+from CraftingGame.items.item import Item
 
 
 class ItemsManager:

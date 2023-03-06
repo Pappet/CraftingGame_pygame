@@ -2,7 +2,7 @@
     {
         "id": 0,
         "name": "Test",
-        "image_path": "CraftingGame/art/test.png",
+        "image_path": "./art/test.png",
         "category": "Test",
         "description": "This is a test item.",
         "stackable": true
@@ -10,7 +10,7 @@
     {
         "id": 1,
         "name": "Holz",
-        "image_path": "CraftingGame/art/Holz.png",
+        "image_path": "./art/Holz.png",
         "category": "RESOURCE",
         "description": "Eine Standart-Ressource zum Bauen.",
         "stackable": true
@@ -18,7 +18,7 @@
     {
         "id": 2,
         "name": "Stein",
-        "image_path": "CraftingGame/art/Stein.png",
+        "image_path": "./art/Stein.png",
         "category": "RESOURCE",
         "description": "Eine Standart-Ressource zum Bauen.",
         "stackable": true
@@ -26,7 +26,7 @@
     {
         "id": 3,
         "name": "Axtkopf",
-        "image_path": "CraftingGame/art/axtkopf.png",
+        "image_path": "./art/axtkopf.png",
         "category": "COMPONENT",
         "description": "Ein rudimentärer Axtkopf. Wird benötigt um eine Axt herzustellen.",
         "stackable": false
@@ -34,7 +34,7 @@
     {
         "id": 4,
         "name": "Axt",
-        "image_path": "CraftingGame/art/axt.png",
+        "image_path": "./art/axt.png",
         "category": "TOOL",
         "description": "Eine einfach Axt um Holz zu bearbeiten.",
         "stackable": false

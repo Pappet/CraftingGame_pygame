@@ -3,7 +3,7 @@ import helper.color as color
 from menus.inventory import Inventory
 from items.items_manager import ItemsManager
 from menus.menu import Menu
-from menus.menus_manager import menus_manager
+from menus.menumanager import MenuManager
 
 pygame.init()
 
@@ -31,7 +31,7 @@ window_position = screen.get_rect().center
 pygame.display.window_pos = window_position
 
 # ---- create menus and menu manager --------------------------------------------------------
-menu_manager = menus_manager()
+menu_manager = MenuManager()
 inventory = Inventory(0, 0, 100, 100, inventory_slot_size, menu_spacing, inventory_rows,
                       inventory_cols, menu_spacing, menu_font_size, menu_title_spacing, inventory_tile, True)
 
@@ -42,7 +42,7 @@ menu_manager.add_menu(test_menu)
 
 # ---- create inventory and items --------------------------------------------------------
 items_manager = ItemsManager()
-items_manager.load_items("CraftingGame/items/items.json")
+items_manager.load_items("./items/items.json")
 
 item1 = items_manager.get_item_by_id(0)
 item2 = items_manager.get_item_by_id(1)

@@ -1,5 +1,5 @@
 import pygame
-import helper.color as color
+import CraftingGame.helper.color as color
 
 
 class Menu:

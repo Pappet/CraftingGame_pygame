@@ -1,5 +1,5 @@
 import pygame
-import helper.color as color
+import CraftingGame.helper.color as color
 
 
 class Slot:
@@ -20,7 +20,7 @@ class Slot:
         return self.item is None
 
     def add_item(self, item):
-        if self.item == None:
+        if self.item is None:
             self.item = item
             self.amount = 1
         else:
