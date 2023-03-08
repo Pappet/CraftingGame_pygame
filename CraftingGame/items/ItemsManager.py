@@ -1,8 +1,8 @@
 import json
 from typing import List, Optional
 
-from CraftingGame.items.item import Item
-from CraftingGame.items.item_types import ItemType
+from CraftingGame.items.Item import Item
+from CraftingGame.items.ItemTypes import ItemType
 
 
 class ItemsManager:
@@ -38,3 +38,9 @@ class ItemsManager:
             if name.lower() in item.name.lower():
                 result.append(item)
         return result
+
+    def get_item_by_name(self, name):
+        for item in self.items:
+            if item.name == name:
+                return item
+        return None

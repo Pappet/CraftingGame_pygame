@@ -1,6 +1,6 @@
 import pygame
 
-from CraftingGame.items.item_types import ItemType
+from CraftingGame.items.ItemTypes import ItemType
 
 
 class Item:

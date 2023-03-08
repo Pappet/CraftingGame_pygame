@@ -1,9 +1,9 @@
 from typing import Tuple, Optional
 
-from CraftingGame.menus.slot import Slot
+from CraftingGame.menus.Slot import Slot
 import pygame
 import CraftingGame.helper.color as color
-from CraftingGame.menus.menu import Menu
+from CraftingGame.menus.Menu import Menu
 
 
 class Inventory(Menu):
@@ -15,13 +15,15 @@ class Inventory(Menu):
         self.slot_spacing = slot_spacing
         self.rows = rows
         self.cols = cols
-        self.width = self.slot_size*self.cols + \
-            (self.slot_spacing*self.cols) - \
-            self.slot_spacing + (self.edge_spacing*2)
+        self.width = width
+        self.height = height
+        #self.width = self.slot_size*self.cols + \
+        #    (self.slot_spacing*self.cols) - \
+        #    self.slot_spacing + (self.edge_spacing*2)
 
-        self.height = self.slot_size*self.rows + \
-            (self.slot_spacing*self.rows) - self.slot_spacing + \
-            (self.edge_spacing*2) + self.title_spacing
+        #self.height = self.slot_size*self.rows + \
+        #    (self.slot_spacing*self.rows) - self.slot_spacing + \
+        #    (self.edge_spacing*2) + self.title_spacing
 
         self.image = pygame.Surface((self.width, self.height))
         self.slots = []

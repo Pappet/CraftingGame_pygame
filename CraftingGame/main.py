@@ -1,9 +1,9 @@
 import pygame
 import helper.color as color
-from menus.inventory import Inventory
-from items.items_manager import ItemsManager
-from menus.menu import Menu
-from menus.menumanager import MenuManager
+from menus.Inventory import Inventory
+from items.ItemsManager import ItemsManager
+from menus.Menu import Menu
+from menus.MenuManager import MenuManager
 
 pygame.init()
 
@@ -13,8 +13,8 @@ screen_height = 800
 screen_title = "Crafting Empire"
 running = True
 
-inventory_rows = 4
-inventory_cols = 5
+inventory_rows = 5
+inventory_cols = 8
 inventory_tile = "Inventory"
 inventory_slot_size = 32
 menu_spacing = 10
@@ -32,7 +32,7 @@ pygame.display.window_pos = window_position
 
 # ---- create menus and menu manager --------------------------------------------------------
 menu_manager = MenuManager()
-inventory = Inventory(0, 0, 100, 100, inventory_slot_size, menu_spacing, inventory_rows,
+inventory = Inventory(menu_spacing, screen_height//2-menu_spacing, screen_width//2, screen_height//2, inventory_slot_size, menu_spacing, inventory_rows,
                       inventory_cols, menu_spacing, menu_font_size, menu_title_spacing, inventory_tile, True)
 
 menu_manager.add_menu(inventory)
@@ -47,13 +47,11 @@ item3 = items_manager.get_item_by_id(2)
 item4 = items_manager.get_item_by_id(3)
 item5 = items_manager.get_item_by_id(4)
 
-
 inventory.add_item(item1)
 inventory.add_item(item2)
 inventory.add_item(item3)
 inventory.add_item(item4)
 inventory.add_item(item5)
-
 
 # ---- Haupt-Schleife --------------------------------------------------------
 while running:
