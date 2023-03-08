@@ -28,6 +28,7 @@ class Inventory(Menu):
         self.create_slots()
         self.active = active
         self.selected_slot = None
+        self.hovering_slot = None
         self.dragging_image = None
         self.max_stack_size = 99
 
@@ -229,3 +230,18 @@ class Inventory(Menu):
                     self.dragging_image = None
                 if slot_index is None:
                     self.dragging_image = None
+        elif event.type == pygame.MOUSEMOTION:
+            if self.dragging_image is not None:
+                pos = pygame.mouse.get_pos()
+                slot_index = self.get_slot_at_position(pos)
+                if self.hovering_slot is None and slot_index is not None:
+                    self.hovering_slot = slot_index
+                    self.hovering_slot.hovering = True
+                else:
+                    if self.hovering_slot != slot_index:
+                        self.hovering_slot.hovering = False
+                        self.hovering_slot = slot_index
+            else:
+                if self.hovering_slot is not None:
+                    self.hovering_slot.hovering = False
+                    self.hovering_slot = None

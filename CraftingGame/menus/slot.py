@@ -11,6 +11,7 @@ class Slot:
         self.rect = pygame.Rect(x, y, width, height)
         self.item = None
         self.selected = False  # add a 'selected' property
+        self.hovering = False
         self.amount = 0
         # change the font to a system font that is available on your system
         self.font_size = 10
@@ -73,3 +74,6 @@ class Slot:
         if self.selected:
             pygame.draw.rect(surface, color.gold, (self.x - 2,
                              self.y - 2, self.width + 4, self.height + 4), 2)
+        if self.hovering:
+            pygame.draw.rect(surface, color.green, (self.x - 2,
+                                                   self.y - 2, self.width + 4, self.height + 4), 2)
