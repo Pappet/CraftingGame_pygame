@@ -23,23 +23,22 @@ class Slot:
         else:
             return True
 
-    def add_item(self, item):
+    def add_item(self, item, amount):
         if self.item is None:
             self.item = item
-            self.amount = 1
+            self.amount = amount
         else:
             if self.item.id == item.id and self.item.stackable:
-                self.amount += 1
-                print(self.amount)
+                self.amount += amount
             else:
                 print("this Slot is not empty and the item is not stackable!")
                 return
 
-    def remove_item(self):
+    def remove_item(self, amount):
         item = self.item
         if item is not None:
-            if item.stackable and self.amount > 1:
-                self.amount -= 1
+            if item.stackable and self.amount > amount:
+                self.amount -= amount
                 return item
             else:
                 self.item = None
@@ -51,14 +50,14 @@ class Slot:
             return None
 
     def is_clicked(self, pos):
-        if self.x <= pos[0] < self.x+self.width and self.y <= pos[1] < self.y+self.height:
+        if self.x <= pos[0] < self.x + self.width and self.y <= pos[1] < self.y + self.height:
             self.selected = True
             return True
         else:
             self.selected = False
             return False
 
-    def item_in_slot(self):
+    def get_item_in_slot(self):
         return self.item
 
     def draw(self, surface):
@@ -70,10 +69,10 @@ class Slot:
                     f"{self.amount}", True, color.white)
                 surface.blit(
                     amount_text, (self.x + self.width - self.font_size, self.y + self.height - self.font_size))
-         # draw a selection border, if selected
+        # draw a selection border, if selected
         if self.selected:
             pygame.draw.rect(surface, color.gold, (self.x - 2,
-                             self.y - 2, self.width + 4, self.height + 4), 2)
+                                                   self.y - 2, self.width + 4, self.height + 4), 2)
         if self.hovering:
             pygame.draw.rect(surface, color.green, (self.x - 2,
-                                                   self.y - 2, self.width + 4, self.height + 4), 2)
+                                                    self.y - 2, self.width + 4, self.height + 4), 2)

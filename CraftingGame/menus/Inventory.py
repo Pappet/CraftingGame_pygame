@@ -1,4 +1,5 @@
 from typing import Tuple, Optional
+import math
 
 from CraftingGame.menus.Slot import Slot
 import pygame
@@ -61,6 +62,11 @@ class Inventory(Menu):
             if not slot.is_empty():
                 return slot
 
+    def get_free_slot(self) -> Slot:
+        for slot in self.slots:
+            if slot.is_empty():
+                return slot
+
     def get_inventory_space(self):
         return len(self.slots)
 
@@ -71,31 +77,115 @@ class Inventory(Menu):
                 index += 1
         return index
 
-    def add_item(self, item):
+    def get_items(self):
+        items = {}
+        for slot in self.slots:
+            if not slot.is_empty():
+                if slot.get_item_in_slot().get_name() not in items:
+                    items[slot.get_item_in_slot().get_name()] = slot.amount
+                else:
+                    items[slot.get_item_in_slot().get_name()] += slot.amount
+        return items
+
+    def get_item_amount(self, name):
+        return self.get_items().get(name, 0)
+
+    def get_slots_with_item(self, item):
+        slots = []
+        for slot in self.slots:
+            if not slot.is_empty() and slot.get_item_in_slot().id == item.id:
+                slots.append(slot)
+        return slots
+
+    def add_item(self, item, amount):
         if item.stackable:
             for slot in self.slots:
-                if not slot.is_empty():
+                if not slot.is_empty() and amount + slot.amount <= self.max_stack_size:
                     if slot.item.id == item.id and not None:
-                        slot.add_item(item)
+                        slot.add_item(item, amount)
                         return True
                 else:
                     if slot.is_empty():
-                        slot.add_item(item)
-                        return True
+                        if amount + slot.amount <= self.max_stack_size:
+                            slot.add_item(item, amount)
+                            return True
+                        else:
+                            if self.get_free_inventory_space() >= math.ceil(amount/self.max_stack_size):
+                                amount_diff = amount
+                                while amount_diff > 0:
+                                    if amount_diff > self.max_stack_size:
+                                        next_slot = self.get_free_slot()
+                                        next_slot.add_item(item, self.max_stack_size)
+                                        amount_diff -= self.max_stack_size
+                                    else:
+                                        next_slot = self.get_free_slot()
+                                        next_slot.add_item(item, amount_diff)
+                                        amount_diff -= amount_diff
+                                        return True
         else:
-            for slot in self.slots:
-                if slot.is_empty():
-                    slot.add_item(item)
+            if amount == 1:
+                for slot in self.slots:
+                    if slot.is_empty():
+                        slot.add_item(item, 1)
+                        return True
+            else:
+                if self.get_free_inventory_space() > amount:
+                    for i in range(amount):
+                        for slot in self.slots:
+                            if slot.is_empty():
+                                slot.add_item(item, 1)
+                                break
                     return True
+                else:
+                    print("To many items for the inventory!")
+                    return False
         return False
 
-    def remove_item(self, item):
-        for slot in self.slots:
-            if not slot.is_empty():
-                if slot.item.id == item.id and item.stackable:
-                    slot.remove_item()
+    def remove_item(self, item, amount):
+        print(self.get_items())
+        if item.stackable:
+            if self.get_item_amount(item.name) >= amount:
+                if amount > self.max_stack_size:
+                    amount_diff = amount
+                    for slot in reversed(self.get_slots_with_item(item)):
+                        if amount_diff > self.max_stack_size:
+                            slot.remove_item(self.max_stack_size)
+                            amount_diff -= self.max_stack_size
+                        else:
+                            slot.remove_item(amount_diff)
                     return True
-
+                else:
+                    for slot in reversed(self.slots):
+                        if not slot.is_empty():
+                            if slot.item.id == item.id:
+                                print(f"amount: {amount} is smaller {self.max_stack_size}")
+                                slot.remove_item(amount)
+                                return True
+            else:
+                print("Not enough Items in Inventory")
+                return False
+        else:
+            if self.get_item_amount(item.name) >= amount:
+                if amount > 1:
+                    # More than 1 item to remove
+                    amount_diff = amount
+                    for slot in reversed(self.get_slots_with_item(item)):
+                        if amount_diff > 0:
+                            slot.remove_item(1)
+                            amount_diff -= 1
+                        else:
+                            break
+                    return True
+                else:
+                    # Only 1 item to remove
+                    for slot in reversed(self.slots):
+                        if not slot.is_empty():
+                            if slot.get_item_in_slot().id == item.id:
+                                slot.remove_item(1)
+                                return True
+            else:
+                print("Not enough Items in Inventory")
+                return False
         return False
 
     def move_item(self, from_slot: Slot, to_slot: Slot) -> None:
@@ -145,16 +235,16 @@ class Inventory(Menu):
                 slot.draw(surface)
 
             # draw the selected item's info
-            if self.selected_slot is not None and self.selected_slot.item_in_slot():
+            if self.selected_slot is not None and self.selected_slot.get_item_in_slot():
                 font = pygame.font.Font(None, self.menu_font_size)
                 name_text = font.render(
-                    self.selected_slot.item_in_slot().name, True, color.white)
+                    self.selected_slot.get_item_in_slot().name, True, color.white)
                 desc_text = font.render(
-                    self.selected_slot.item_in_slot().description, True, color.white)
-                image_item = self.selected_slot.item_in_slot().get_image()
+                    self.selected_slot.get_item_in_slot().description, True, color.white)
+                image_item = self.selected_slot.get_item_in_slot().get_image()
                 amount_text = font.render(
                     f"Amount: {self.selected_slot.amount}", True, color.white)
-                if self.selected_slot.item_in_slot().stackable:
+                if self.selected_slot.get_item_in_slot().stackable:
                     stackable_str = "stackable"
                 else:
                     stackable_str = "not stackable"
@@ -204,7 +294,7 @@ class Inventory(Menu):
                     if slot_index is not None:
                         self.selected_slot = slot_index
                         if not slot_index.is_empty():
-                            self.dragging_image = slot_index.item_in_slot().get_image()
+                            self.dragging_image = slot_index.get_item_in_slot().get_image()
 
                     selected_slot_index = False
                     # Go through all slots and check if the position of the click is within in one slot

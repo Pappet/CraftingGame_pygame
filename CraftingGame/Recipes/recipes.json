@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Axtkopf",
+    "ingredients": {
+      "Stein": 2
+    },
+    "results": {
+      "Axtkopf": 1
+    }
+  },
+  {
+    "name": "Steinaxt",
+    "ingredients": {
+      "Holz": 2,
+      "Axtkopf": 1
+    },
+    "results": {
+      "Axt": 1
+    }
+  },
+  {
+    "name": "Stock",
+    "ingredients": {
+      "Holz": 2
+    },
+    "results": {
+      "Stock": 4
+    }
+  }
+]
