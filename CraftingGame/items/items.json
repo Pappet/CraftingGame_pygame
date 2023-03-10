@@ -1,6 +1,5 @@
 [
     {
-        "id": 0,
         "name": "Test",
         "image_path": "./art/test.png",
         "category": "Test",
@@ -8,33 +7,78 @@
         "stackable": true
     },
     {
-        "id": 1,
+        "name": "Wasser",
+        "image_path": "./art/Wasser.png",
+        "category": "RESOURCE",
+        "description": "Dies ist reines Wasser.",
+        "stackable": true
+    },
+    {
+        "name": "Feuer",
+        "image_path": "./art/Feuer.png",
+        "category": "RESOURCE",
+        "description": "Dies ist brennendes Feuer.",
+        "stackable": true
+    },
+    {
         "name": "Holz",
         "image_path": "./art/Holz.png",
         "category": "RESOURCE",
-        "description": "Eine Standart-Ressource zum Bauen.",
+        "description": "Eine Standard-Ressource zum Bauen.",
         "stackable": true
     },
     {
-        "id": 2,
+        "name": "Stock",
+        "image_path": "./art/Stock.png",
+        "category": "COMPONENT",
+        "description": "Eine sehr vielseitiger Stock.",
+        "stackable": true
+    },
+    {
+        "name": "Pflanzenfaser",
+        "image_path": "./art/Pflanzenfaser.png",
+        "category": "RESOURCE",
+        "description": "Dies sind Pflanzenfasern.",
+        "stackable": true
+    },
+    {
         "name": "Stein",
         "image_path": "./art/Stein.png",
         "category": "RESOURCE",
-        "description": "Eine Standart-Ressource zum Bauen.",
+        "description": "Eine Standard-Ressource zum Bauen.",
         "stackable": true
     },
     {
-        "id": 3,
+        "name": "Sand",
+        "image_path": "./art/Sand.png",
+        "category": "RESOURCE",
+        "description": "Dies ist feiner Sand.",
+        "stackable": true
+    },
+    {
+        "name": "Ton",
+        "image_path": "./art/Ton.png",
+        "category": "RESOURCE",
+        "description": "Dies ist formbarer Ton.",
+        "stackable": true
+    },
+    {
+        "name": "Salz",
+        "image_path": "./art/Salz.png",
+        "category": "RESOURCE",
+        "description": "Dies ist reines Salz.",
+        "stackable": true
+    },
+    {
         "name": "Axtkopf",
-        "image_path": "./art/axtkopf.png",
+        "image_path": "./art/Axtkopf.png",
         "category": "COMPONENT",
         "description": "Ein rudimentärer Axtkopf. Wird benötigt um eine Axt herzustellen.",
         "stackable": false
     },
     {
-        "id": 4,
         "name": "Axt",
-        "image_path": "./art/axt.png",
+        "image_path": "./art/Axt.png",
         "category": "TOOL",
         "description": "Eine einfach Axt um Holz zu bearbeiten.",
         "stackable": false

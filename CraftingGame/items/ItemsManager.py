@@ -1,4 +1,5 @@
 import json
+import uuid
 from typing import List, Optional
 
 from CraftingGame.items.Item import Item
@@ -14,8 +15,9 @@ class ItemsManager:
             items_data = json.load(f)
 
         for item_data in items_data:
-            item = Item(item_data['id'], item_data['name'], item_data['image_path'],
+            item = Item(str(uuid.uuid4()), item_data['name'], item_data['image_path'],
                         item_data['category'], item_data['description'], item_data['stackable'])
+            print(item.id)
             self.items.append(item)
 
     def get_item_by_id(self, item_id) -> Optional[Item]:

@@ -41,17 +41,11 @@ menu_manager.add_menu(inventory)
 items_manager = ItemsManager()
 items_manager.load_items("./items/items.json")
 
-item1 = items_manager.get_item_by_id(0)
-item2 = items_manager.get_item_by_id(1)
-item3 = items_manager.get_item_by_id(2)
-item4 = items_manager.get_item_by_id(3)
-item5 = items_manager.get_item_by_id(4)
-
-inventory.add_item(item1, 250)
-inventory.add_item(item2, 300)
-inventory.add_item(item3, 150)
-inventory.add_item(item4, 1)
-inventory.add_item(item5, 1)
+for item in items_manager.items:
+    if item.stackable:
+        inventory.add_item(item, 99)
+    else:
+        inventory.add_item(item, 1)
 
 print(inventory.get_items())
 
@@ -60,7 +54,7 @@ recipe_manager = RecipeManager(inventory, items_manager)
 recipe_manager.load_recipes("./Recipes/recipes.json")
 # print(recipe_manager.get_recipes_by_ingredient("Holz"))
 # print(recipe_manager.can_craft(recipe_manager.get_recipe_by_name("Steinaxt")))
-recipe_manager.craft(recipe_manager.get_recipe_by_name("Steinaxt"))
+# recipe_manager.craft(recipe_manager.get_recipe_by_name("Stock"))
 print(inventory.get_items())
 
 # ---- Haupt-Schleife --------------------------------------------------------
