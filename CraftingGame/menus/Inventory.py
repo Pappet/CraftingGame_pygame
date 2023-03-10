@@ -271,10 +271,10 @@ class Inventory(Menu):
                 # testing the inventory - add and remove a test item
                 if event.key == pygame.K_a:
                     if self.get_free_inventory_space() > 0 and not self.selected_slot.is_empty():
-                        self.add_item(self.selected_slot.item)
+                        self.add_item(self.selected_slot.item, 1)
                 elif event.key == pygame.K_r:
                     if self.get_free_inventory_space() < self.get_inventory_space() and self.selected_slot:
-                        if not self.selected_slot.remove_item():
+                        if not self.remove_item(self.selected_slot.get_item_in_slot(), 1):
                             self.selected_slot = None
             if event.key == pygame.K_x:
                 self.toggle_menu()

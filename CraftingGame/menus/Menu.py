@@ -28,7 +28,7 @@ class Menu:
         if self.active:
             self.image.fill(self.bg_color)
             bg_rect = self.image.get_rect(topleft=(self.x, self.y))
-            # topleft=(self.x - self.edge_spacing, self.y - self.edge_spacing - self.title_spacing))
+            # top left=(self.x - self.edge_spacing, self.y - self.edge_spacing - self.title_spacing))
             pygame.draw.rect(surface, self.bg_color, bg_rect)
 
             title_surface = self.font.render(self.title, True, color.white)
