@@ -2,7 +2,6 @@ import pygame
 import helper.color as color
 from menus.Inventory import Inventory
 from items.ItemsManager import ItemsManager
-from menus.Menu import Menu
 from menus.MenuManager import MenuManager
 from Recipes.RecipeManager import RecipeManager
 
@@ -48,28 +47,21 @@ item3 = items_manager.get_item_by_id(2)
 item4 = items_manager.get_item_by_id(3)
 item5 = items_manager.get_item_by_id(4)
 
-inventory.add_item(item1, 99)
-inventory.add_item(item2, 99)
-inventory.add_item(item3, 99)
-inventory.add_item(item2, 99)
-inventory.add_item(item3, 99)
+inventory.add_item(item1, 250)
+inventory.add_item(item2, 300)
+inventory.add_item(item3, 150)
 inventory.add_item(item4, 1)
 inventory.add_item(item5, 1)
-inventory.add_item(item5, 1)
-inventory.add_item(item5, 1)
-inventory.add_item(item5, 1)
-inventory.add_item(item3, 120)
 
 print(inventory.get_items())
-inventory.remove_item(item5, 1)
-print(inventory.get_items())
-
 
 # ---- Rezepte --------------------------------------------------------
-recipe_manager = RecipeManager()
+recipe_manager = RecipeManager(inventory, items_manager)
 recipe_manager.load_recipes("./Recipes/recipes.json")
 # print(recipe_manager.get_recipes_by_ingredient("Holz"))
-# print(recipe_manager.can_craft(recipe_manager.get_recipe_by_name("Axt"), inventory.get_items()))
+# print(recipe_manager.can_craft(recipe_manager.get_recipe_by_name("Steinaxt")))
+recipe_manager.craft(recipe_manager.get_recipe_by_name("Steinaxt"))
+print(inventory.get_items())
 
 # ---- Haupt-Schleife --------------------------------------------------------
 while running:

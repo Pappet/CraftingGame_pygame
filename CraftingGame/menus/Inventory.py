@@ -142,7 +142,6 @@ class Inventory(Menu):
         return False
 
     def remove_item(self, item, amount):
-        print(self.get_items())
         if item.stackable:
             if self.get_item_amount(item.name) >= amount:
                 if amount > self.max_stack_size:
@@ -158,7 +157,6 @@ class Inventory(Menu):
                     for slot in reversed(self.slots):
                         if not slot.is_empty():
                             if slot.item.id == item.id:
-                                print(f"amount: {amount} is smaller {self.max_stack_size}")
                                 slot.remove_item(amount)
                                 return True
             else:
