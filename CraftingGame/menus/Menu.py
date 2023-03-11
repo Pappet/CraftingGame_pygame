@@ -13,7 +13,7 @@ class Menu:
         self.height = height
         self.menu_font_size = menu_font_size
         self.image = pygame.Surface((self.width, self.height))
-        self.bg_color = color.gray
+        self.bg_color = color.dim_gray
         # change the font to a system font that is available on your system
         self.font = pygame.font.SysFont("arial", self.title_spacing)
         self.active = active

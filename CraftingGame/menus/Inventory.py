@@ -4,13 +4,16 @@ import math
 from CraftingGame.menus.Slot import Slot
 import pygame
 import CraftingGame.helper.color as color
+import CraftingGame.helper.pygame_text as text
 from CraftingGame.menus.Menu import Menu
 
 
 class Inventory(Menu):
-    def __init__(self, x, y, width, height, slot_size, slot_spacing, rows, cols, edge_spacing, menu_font_size, title_spacing, title, active):
+    def __init__(self, x, y, width, height, slot_size, slot_spacing, rows, cols, edge_spacing, menu_font_size,
+                 title_spacing, title, active):
         super().__init__(x=x, y=y, width=width, height=height,
-                         edge_spacing=edge_spacing, menu_font_size=menu_font_size, title_spacing=title_spacing, title=title, active=active)
+                         edge_spacing=edge_spacing, menu_font_size=menu_font_size, title_spacing=title_spacing,
+                         title=title, active=active)
 
         self.slot_size = slot_size
         self.slot_spacing = slot_spacing
@@ -18,11 +21,11 @@ class Inventory(Menu):
         self.cols = cols
         self.width = width
         self.height = height
-        #self.width = self.slot_size*self.cols + \
+        # self.width = self.slot_size*self.cols + \
         #    (self.slot_spacing*self.cols) - \
         #    self.slot_spacing + (self.edge_spacing*2)
 
-        #self.height = self.slot_size*self.rows + \
+        # self.height = self.slot_size*self.rows + \
         #    (self.slot_spacing*self.rows) - self.slot_spacing + \
         #    (self.edge_spacing*2) + self.title_spacing
 
@@ -110,7 +113,7 @@ class Inventory(Menu):
                             slot.add_item(item, amount)
                             return True
                         else:
-                            if self.get_free_inventory_space() >= math.ceil(amount/self.max_stack_size):
+                            if self.get_free_inventory_space() >= math.ceil(amount / self.max_stack_size):
                                 amount_diff = amount
                                 while amount_diff > 0:
                                     if amount_diff > self.max_stack_size:
@@ -221,14 +224,15 @@ class Inventory(Menu):
         if self.active:
             self.image.fill(self.bg_color)
             bg_rect = self.image.get_rect(topleft=(self.x, self.y))
-            # top-left=(self.x - self.edge_spacing, self.y - self.edge_spacing - self.title_spacing))
             pygame.draw.rect(surface, self.bg_color, bg_rect)
 
+            # draw the Inventory title with additional information
             title_surface = self.font.render(
-                f"{self.title} ({self.get_free_inventory_space()}/{self.get_inventory_space()})", True, color.black)
-            surface.blit(title_surface, (self.x - (title_surface.get_width()/2) +
-                                         (self.width/2) - (self.edge_spacing/2), self.y + (self.edge_spacing/2)))
+                f"{self.title} ({self.get_free_inventory_space()} / {self.get_inventory_space()})", True, color.black)
+            surface.blit(title_surface, (self.x - (title_surface.get_width() / 2) +
+                                         (self.width / 2) - (self.edge_spacing / 2), self.y + (self.edge_spacing / 2)))
 
+            # draw the slots
             for slot in self.slots:
                 slot.draw(surface)
 
@@ -237,8 +241,6 @@ class Inventory(Menu):
                 font = pygame.font.Font(None, self.menu_font_size)
                 name_text = font.render(
                     self.selected_slot.get_item_in_slot().name, True, color.white)
-                desc_text = font.render(
-                    self.selected_slot.get_item_in_slot().description, True, color.white)
                 image_item = self.selected_slot.get_item_in_slot().get_image()
                 amount_text = font.render(
                     f"Amount: {self.selected_slot.amount}", True, color.white)
@@ -247,19 +249,20 @@ class Inventory(Menu):
                 else:
                     stackable_str = "not stackable"
                 stackable_text = font.render(stackable_str, True, color.white)
+
                 surface.blit(image_item, (self.x +
                                           self.width + self.slot_spacing, self.y))
                 surface.blit(name_text, (self.x +
                                          self.width + self.slot_spacing, self.y + 40))
-                surface.blit(desc_text, (self.x +
-                                         self.width + self.slot_spacing, self.y + 60))
                 surface.blit(amount_text, (self.x + self.width +
-                             self.slot_spacing, self.y + 80))
+                                           self.slot_spacing, self.y + 60))
                 surface.blit(stackable_text, (self.x +
-                                              self.width + self.slot_spacing, self.y + 100))
+                                              self.width + self.slot_spacing, self.y + 80))
+                text.draw_multiline_text(surface, font, self.selected_slot.get_item_in_slot().description, color.white,
+                                         self.x + self.width + self.slot_spacing, self.y + 100, 200)
 
+            # Render the dragging image surface at the mouse position
             if self.dragging_image is not None:
-                # Render the dragging image surface at the mouse position
                 mouse_pos = pygame.mouse.get_pos()
                 x, y = mouse_pos[0] - self.dragging_image.get_width() / 2, mouse_pos[
                     1] - self.dragging_image.get_height() / 2

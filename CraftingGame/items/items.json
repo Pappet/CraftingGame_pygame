@@ -10,77 +10,77 @@
         "name": "Wasser",
         "image_path": "./art/Wasser.png",
         "category": "RESOURCE",
-        "description": "Dies ist reines Wasser.",
+        "description": "Wasser ist eine klare, erfrischende Flüssigkeit, die wir trinken, schwimmen und uns darin waschen können.",
         "stackable": true
     },
     {
         "name": "Feuer",
         "image_path": "./art/Feuer.png",
         "category": "RESOURCE",
-        "description": "Dies ist brennendes Feuer.",
+        "description": "Feuer ist eine helle und warme Energie, die durch das Verbrennen von Holz, Papier oder anderen Dingen entsteht und uns zum Kochen, Wärmen und zum Betrachten von flackernden Flammen dient.",
         "stackable": true
     },
     {
         "name": "Holz",
         "image_path": "./art/Holz.png",
         "category": "RESOURCE",
-        "description": "Eine Standard-Ressource zum Bauen.",
+        "description": "Holz ist ein fester, natürlicher Stoff, der aus Bäumen gewonnen wird und zum Bauen, Heizen und zur Herstellung von Möbeln verwendet wird.",
         "stackable": true
     },
     {
         "name": "Stock",
         "image_path": "./art/Stock.png",
         "category": "COMPONENT",
-        "description": "Eine sehr vielseitiger Stock.",
+        "description": "Ein Stock ist ein langer, dünner Ast oder Zweig, den man beim Wandern oder Spazierengehen benutzen kann, um sich zu stützen oder um damit zu spielen.",
         "stackable": true
     },
     {
         "name": "Pflanzenfaser",
         "image_path": "./art/Pflanzenfaser.png",
-        "category": "RESOURCE",
-        "description": "Dies sind Pflanzenfasern.",
+        "category": "COMPONENT",
+        "description": "Pflanzenfasern sind weiche und flexible Materialien, die von Pflanzen stammen und zur Herstellung von Kleidung, Papier und Seilen verwendet werden können.",
         "stackable": true
     },
     {
         "name": "Stein",
         "image_path": "./art/Stein.png",
         "category": "RESOURCE",
-        "description": "Eine Standard-Ressource zum Bauen.",
+        "description": "Stein ist ein harter und schwerer natürlicher Stoff, der in vielen Formen und Farben vorkommt und oft zum Bauen von Gebäuden, Mauern und Skulpturen verwendet wird.",
         "stackable": true
     },
     {
         "name": "Sand",
         "image_path": "./art/Sand.png",
         "category": "RESOURCE",
-        "description": "Dies ist feiner Sand.",
+        "description": "Sand ist ein feiner, körniger Stoff, der am Strand, in der Wüste oder in Sandkästen vorkommt und sich gut zum Spielen, Bauen und Graben eignet.",
         "stackable": true
     },
     {
         "name": "Ton",
         "image_path": "./art/Ton.png",
         "category": "RESOURCE",
-        "description": "Dies ist formbarer Ton.",
+        "description": "Ton ist ein weicher, formbarer Stoff, der sich gut zum Töpfern und Modellieren von Figuren und Kunstwerken eignet.",
         "stackable": true
     },
     {
         "name": "Salz",
         "image_path": "./art/Salz.png",
-        "category": "RESOURCE",
-        "description": "Dies ist reines Salz.",
+        "category": "COMPONENT",
+        "description": "Salz ist ein mineralischer Stoff, der oft zum Würzen von Lebensmitteln verwendet wird und uns hilft, hydratisiert zu bleiben, wenn wir schwitzen.",
         "stackable": true
     },
     {
         "name": "Axtkopf",
         "image_path": "./art/Axtkopf.png",
         "category": "COMPONENT",
-        "description": "Ein rudimentärer Axtkopf. Wird benötigt um eine Axt herzustellen.",
+        "description": "Ein Axtkopf ist ein schweres und scharfes Werkzeug, das auf einen Stiel montiert wird und uns hilft, Holz zu hacken, zu zerkleinern und zu bearbeiten.",
         "stackable": false
     },
     {
         "name": "Axt",
         "image_path": "./art/Axt.png",
         "category": "TOOL",
-        "description": "Eine einfach Axt um Holz zu bearbeiten.",
+        "description": "Eine Axt ist ein Werkzeug mit einem langen Griff und einem scharfen Axtkopf, das uns beim Fällen von Bäumen, beim Spalten von Holz und beim Entfernen von Ästen hilft.",
         "stackable": false
     }
 ]

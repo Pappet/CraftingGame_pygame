@@ -61,6 +61,7 @@ class Slot:
         return self.item
 
     def draw(self, surface):
+        pygame.draw.rect(surface, color.dark_gray, self.rect)
         pygame.draw.rect(surface, color.white, self.rect, 1)
         if not self.is_empty():
             surface.blit(self.item.get_image(), self.rect.topleft)

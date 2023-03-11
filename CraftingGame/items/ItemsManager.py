@@ -17,7 +17,7 @@ class ItemsManager:
         for item_data in items_data:
             item = Item(str(uuid.uuid4()), item_data['name'], item_data['image_path'],
                         item_data['category'], item_data['description'], item_data['stackable'])
-            print(item.id)
+            print(f"{item.name}: {item.id}")
             self.items.append(item)
 
     def get_item_by_id(self, item_id) -> Optional[Item]:
