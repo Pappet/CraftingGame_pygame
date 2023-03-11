@@ -1,4 +1,7 @@
-def draw_multiline_text(window, font, text, color, x, y, max_width):
+import pygame
+
+
+def draw_multiline_text(window, text, size, color, x, y, max_width):
     """
     Zeichnet einen mehrzeiligen Text auf ein Pygame-Fenster.
 
@@ -10,6 +13,7 @@ def draw_multiline_text(window, font, text, color, x, y, max_width):
     y: y-Koordinate des Textanfangs
     max_width: maximale Breite des Textabschnitts
     """
+    font = pygame.font.SysFont("arial", size)
     text_sections = []
     for line in text.split('\n'):
         words = line.split(' ')
@@ -28,3 +32,12 @@ def draw_multiline_text(window, font, text, color, x, y, max_width):
         y += font.size(section)[1]
 
     return y
+
+
+# To Draw text on the screen
+def draw_text(screen, text, size, color, x, y):
+    font = pygame.font.SysFont("arial", size)
+    text_surface = font.render(text, True, color)
+    text_rect = text_surface.get_rect()
+    text_rect.topleft = (x, y)
+    screen.blit(text_surface, text_rect)

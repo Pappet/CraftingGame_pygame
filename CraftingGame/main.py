@@ -1,8 +1,11 @@
 import pygame
+
 import helper.color as color
 from menus.Inventory import Inventory
 from items.ItemsManager import ItemsManager
 from menus.MenuManager import MenuManager
+from menus.Menu import Menu
+from menus.CraftingMenu import CraftingMenu
 from Recipes.RecipeManager import RecipeManager
 
 pygame.init()
@@ -16,7 +19,7 @@ running = True
 inventory_rows = 5
 inventory_cols = 8
 inventory_tile = "Inventory"
-inventory_slot_size = 32
+inventory_slot_size = 64
 menu_spacing = 10
 menu_title_spacing = 24
 menu_font_size = 18
@@ -32,15 +35,33 @@ pygame.display.window_pos = window_position
 
 # ---- create menus and menu manager --------------------------------------------------------
 menu_manager = MenuManager()
-inventory = Inventory(menu_spacing, screen_height//2-menu_spacing, screen_width//2, screen_height//2, inventory_slot_size, menu_spacing, inventory_rows,
-                      inventory_cols, menu_spacing, menu_font_size, menu_title_spacing, inventory_tile, True)
-
-menu_manager.add_menu(inventory)
+top_left = (0, 0)
+top_right = (screen_width//2, 0)
+bottom_left = (0, screen_height//2)
+bottom_right = (screen_width//2, screen_height//2)
 
 # ---- create inventory and items --------------------------------------------------------
 items_manager = ItemsManager()
 items_manager.load_items("./items/items.json")
 
+inventory = Inventory(bottom_left[0], bottom_left[1], screen_width//2, screen_height//2, inventory_slot_size, menu_spacing, inventory_rows,
+                      inventory_cols, menu_spacing, menu_font_size, menu_title_spacing, inventory_tile, True)
+
+# ---- Rezepte --------------------------------------------------------
+recipe_manager = RecipeManager(inventory, items_manager)
+recipe_manager.load_recipes("./Recipes/recipes.json")
+
+# ---- create menus and menu manager --------------------------------------------------------
+crafting_menu = CraftingMenu(top_left[0], top_left[1], screen_width//2, screen_height//2, menu_spacing, menu_font_size, menu_title_spacing, "Herstellung", True, inventory, items_manager)
+map_menu = Menu(top_right[0], top_right[1], screen_width//2, screen_height//2, menu_spacing, menu_font_size, menu_title_spacing, "Karte", False)
+massage_menu = Menu(bottom_right[0], bottom_right[1], screen_width//2, screen_height//2, menu_spacing, menu_font_size, menu_title_spacing, "Nachrichten", False)
+
+menu_manager.add_menu(inventory)
+menu_manager.add_menu(crafting_menu)
+menu_manager.add_menu(map_menu)
+menu_manager.add_menu(massage_menu)
+
+# ---- Manipulate the Inventory --------------------------------------------------------
 for item in items_manager.items:
     if item.stackable:
         inventory.add_item(item, 99)
@@ -48,10 +69,6 @@ for item in items_manager.items:
         inventory.add_item(item, 1)
 
 print(inventory.get_items())
-
-# ---- Rezepte --------------------------------------------------------
-recipe_manager = RecipeManager(inventory, items_manager)
-recipe_manager.load_recipes("./Recipes/recipes.json")
 # print(recipe_manager.get_recipes_by_ingredient("Holz"))
 # print(recipe_manager.can_craft(recipe_manager.get_recipe_by_name("Steinaxt")))
 # recipe_manager.craft(recipe_manager.get_recipe_by_name("Stock"))

@@ -31,9 +31,12 @@ class Menu:
             # top left=(self.x - self.edge_spacing, self.y - self.edge_spacing - self.title_spacing))
             pygame.draw.rect(surface, self.bg_color, bg_rect)
 
-            title_surface = self.font.render(self.title, True, color.white)
+            pygame.draw.rect(surface, color.gray, (self.x, self.y, self.width, self.title_spacing))
+            title_surface = self.font.render(self.title, True, color.black)
             surface.blit(title_surface, (self.x - (title_surface.get_width()/2) +
                                          (self.width/2) - (self.edge_spacing/2), self.y + (self.edge_spacing/2)))
 
     def update(self, event):
-        return
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_x:
+                self.toggle_menu()

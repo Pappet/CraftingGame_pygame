@@ -227,6 +227,7 @@ class Inventory(Menu):
             pygame.draw.rect(surface, self.bg_color, bg_rect)
 
             # draw the Inventory title with additional information
+            pygame.draw.rect(surface, color.gray, (self.x, self.y, self.width, self.title_spacing))
             title_surface = self.font.render(
                 f"{self.title} ({self.get_free_inventory_space()} / {self.get_inventory_space()})", True, color.black)
             surface.blit(title_surface, (self.x - (title_surface.get_width() / 2) +
@@ -235,31 +236,6 @@ class Inventory(Menu):
             # draw the slots
             for slot in self.slots:
                 slot.draw(surface)
-
-            # draw the selected item's info
-            if self.selected_slot is not None and self.selected_slot.get_item_in_slot():
-                font = pygame.font.Font(None, self.menu_font_size)
-                name_text = font.render(
-                    self.selected_slot.get_item_in_slot().name, True, color.white)
-                image_item = self.selected_slot.get_item_in_slot().get_image()
-                amount_text = font.render(
-                    f"Amount: {self.selected_slot.amount}", True, color.white)
-                if self.selected_slot.get_item_in_slot().stackable:
-                    stackable_str = "stackable"
-                else:
-                    stackable_str = "not stackable"
-                stackable_text = font.render(stackable_str, True, color.white)
-
-                surface.blit(image_item, (self.x +
-                                          self.width + self.slot_spacing, self.y))
-                surface.blit(name_text, (self.x +
-                                         self.width + self.slot_spacing, self.y + 40))
-                surface.blit(amount_text, (self.x + self.width +
-                                           self.slot_spacing, self.y + 60))
-                surface.blit(stackable_text, (self.x +
-                                              self.width + self.slot_spacing, self.y + 80))
-                text.draw_multiline_text(surface, font, self.selected_slot.get_item_in_slot().description, color.white,
-                                         self.x + self.width + self.slot_spacing, self.y + 100, 200)
 
             # Render the dragging image surface at the mouse position
             if self.dragging_image is not None:
@@ -313,7 +289,7 @@ class Inventory(Menu):
             if event.button == 1:
                 pos = pygame.mouse.get_pos()
                 slot_index = self.get_slot_at_position(pos)
-                if slot_index is not None and slot_index != self.selected_slot:
+                if slot_index is not None and slot_index != self.selected_slot and self.dragging_image:
                     self.move_item(self.selected_slot, slot_index)
                     self.selected_slot.selected = False
                     slot_index.selected = True
