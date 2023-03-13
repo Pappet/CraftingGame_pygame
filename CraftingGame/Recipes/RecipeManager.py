@@ -2,10 +2,11 @@ import json
 
 
 class RecipeManager:
-    def __init__(self, inventory, item_manager):
+    def __init__(self, inventory, item_manager, message_menu):
         self.recipes = []
         self.inventory = inventory
         self.item_manager = item_manager
+        self.message_menu = message_menu
 
     def load_recipes(self, recipes_file_path):
         with open(recipes_file_path, 'r') as f:
@@ -33,21 +34,21 @@ class RecipeManager:
                     return False
                 print(f"Recipe: {recipe['name']} can be crafted!")
                 return True
-        print(f"This is an invalid Recipe!")
+        self.message_menu.add_message(f"This is an invalid Recipe!")
         return False
 
     def craft(self, recipe) -> bool:
         if self.can_craft(recipe):
-            print(f"You are crafting a {recipe['name']}")
+            self.message_menu.add_message(f"You are crafting a {recipe['name']}")
             for ingredients_item, ingredients_amount in recipe["ingredients"].items():
                 item_object = self.item_manager.get_item_by_name(ingredients_item)
                 self.inventory.remove_item(item_object, ingredients_amount)
-                print(f"Removed {ingredients_amount} of {ingredients_item} from the inventory!")
+                self.message_menu.add_message(f"Removed {ingredients_amount} of {ingredients_item}!")
 
             for result_item, result_amount in recipe["results"].items():
                 result_object = self.item_manager.get_item_by_name(result_item)
                 self.inventory.add_item(result_object, result_amount)
-                print(f"Added {result_amount} of {result_item}!")
+                self.message_menu.add_message(f"Added {result_amount} of {result_item}!")
             return True
-        print(f"Can't craft this recipe!")
+        self.message_menu.add_message(f"Can't craft this recipe!")
         return False

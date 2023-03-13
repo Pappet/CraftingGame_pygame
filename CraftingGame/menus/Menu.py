@@ -3,7 +3,7 @@ import CraftingGame.helper.color as color
 
 
 class Menu:
-    def __init__(self, x, y, width=100, height=100, edge_spacing=10, menu_font_size=18, title_spacing=30, title="Default", active=False):
+    def __init__(self, x, y, message_menu,width=100, height=100, edge_spacing=10, menu_font_size=18, title_spacing=30, title="Default", active=False):
         self.x = x
         self.y = y
         self.edge_spacing = edge_spacing
@@ -17,9 +17,11 @@ class Menu:
         # change the font to a system font that is available on your system
         self.font = pygame.font.SysFont("arial", self.title_spacing)
         self.active = active
+        self.message_menu = message_menu
 
     def toggle_menu(self):
         self.active = not self.active
+        self.message_menu.add_message(f"Toggeled {self.title}!")
 
     def get_image(self):
         return self.image
