@@ -32,7 +32,6 @@ class RecipeManager:
                 if self.inventory.get_items().get(item, 0) < amount:
                     print(f"Not enough Ingredients for {recipe['name']} in Inventory!")
                     return False
-                print(f"Recipe: {recipe['name']} can be crafted!")
                 return True
         self.message_menu.add_message(f"This is an invalid Recipe!")
         return False

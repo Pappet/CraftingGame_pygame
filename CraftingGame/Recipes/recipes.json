@@ -26,5 +26,33 @@
     "results": {
       "Stock": 4
     }
+  },
+  {
+    "name": "Steinziegel",
+    "ingredients": {
+      "Stein": 2
+    },
+    "results": {
+      "Steinziegel": 1
+    }
+  },
+  {
+    "name": "ungebrannte Tonschale",
+    "ingredients": {
+      "Ton": 2
+    },
+    "results": {
+      "ungebrannte Tonschale": 1
+    }
+  },
+  {
+    "name": "gebrannte Tonschale",
+    "ingredients": {
+      "ungebrannte Tonschale": 1,
+      "Feuer": 1
+    },
+    "results": {
+      "gebrannte Tonschale": 1
+    }
   }
 ]

@@ -42,10 +42,31 @@
         "stackable": true
     },
     {
+        "name": "Getreide",
+        "image_path": "./art/Getreide.png",
+        "category": "RESOURCE",
+        "description": "Getreide wird aus Weizen gewonnen. Es ist eine Rohstoff der sich weiterverarbeiten lässt und hat die moderne Zivilisation gross gemacht.",
+        "stackable": true
+    },
+    {
+        "name": "Knochen",
+        "image_path": "./art/Knochen.png",
+        "category": "RESOURCE",
+        "description": "Knochen werden von toten Lebewesen gewonnen und können auf verschiedenste Art weiterverarbeitet werden.",
+        "stackable": true
+    },
+    {
         "name": "Stein",
         "image_path": "./art/Stein.png",
         "category": "RESOURCE",
         "description": "Stein ist ein harter und schwerer natürlicher Stoff, der in vielen Formen und Farben vorkommt und oft zum Bauen von Gebäuden, Mauern und Skulpturen verwendet wird.",
+        "stackable": true
+    },
+    {
+        "name": "Kohle",
+        "image_path": "./art/Kohle.png",
+        "category": "RESOURCE",
+        "description": "Kohle ist ein Energieträger, der verbrannt werden kann um die Energie frei zu lassen.",
         "stackable": true
     },
     {
@@ -56,6 +77,13 @@
         "stackable": true
     },
     {
+        "name": "Salz",
+        "image_path": "./art/Salz.png",
+        "category": "COMPONENT",
+        "description": "Salz ist ein mineralischer Stoff, der oft zum Würzen von Lebensmitteln verwendet wird und uns hilft, hydratisiert zu bleiben, wenn wir schwitzen.",
+        "stackable": true
+    },
+    {
         "name": "Ton",
         "image_path": "./art/Ton.png",
         "category": "RESOURCE",
@@ -63,10 +91,24 @@
         "stackable": true
     },
     {
-        "name": "Salz",
-        "image_path": "./art/Salz.png",
+        "name": "ungebrannte Tonschale",
+        "image_path": "./art/Schale_ungebrannt.png",
         "category": "COMPONENT",
-        "description": "Salz ist ein mineralischer Stoff, der oft zum Würzen von Lebensmitteln verwendet wird und uns hilft, hydratisiert zu bleiben, wenn wir schwitzen.",
+        "description": "Diese Schale wurde aus Ton hergestellt. In diesem ungebrannten Zustand lässt sich jedoch noch nicht viel mit anfangen.",
+        "stackable": false
+    },
+    {
+        "name": "gebrannte Tonschale",
+        "image_path": "./art/Schale_gebrannt.png",
+        "category": "TOOL",
+        "description": "Diese Schale wurde aus Ton hergestellt und in einem Feuer gebrannt.",
+        "stackable": false
+    },
+    {
+        "name": "Steinziegel",
+        "image_path": "./art/Ziegel_Stein.png",
+        "category": "COMPONENT",
+        "description": "Diese Ziegel bestehen aus Stein und wurden mit roher Gewalt in Form gehauen.",
         "stackable": true
     },
     {

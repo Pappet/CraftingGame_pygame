@@ -6,12 +6,13 @@ import pygame
 import CraftingGame.helper.color as color
 import CraftingGame.helper.pygame_text as text
 from CraftingGame.menus.Menu import Menu
+from CraftingGame.menus.Button import Button
 
 
 class Inventory(Menu):
     def __init__(self, x, y, width, height, slot_size, slot_spacing, rows, cols, edge_spacing, menu_font_size,
-                 title_spacing, title, active, message_menu):
-        super().__init__(x=x, y=y, message_menu=message_menu, width=width, height=height,
+                 title_spacing, title, active, message_menu, button_manager):
+        super().__init__(x=x, y=y, message_menu=message_menu, button_manager=button_manager, width=width, height=height,
                          edge_spacing=edge_spacing, menu_font_size=menu_font_size, title_spacing=title_spacing,
                          title=title, active=active)
 
@@ -37,6 +38,10 @@ class Inventory(Menu):
         self.hovering_slot = None
         self.dragging_image = None
         self.max_stack_size = 99
+
+        self.close_button = Button(self.x, self.y, self.title_spacing, self.title_spacing, "X", 18, color.black,
+                                   color.red, color.coralred, self.toggle_menu)
+        self.button_manager.add_button(self.close_button)
 
     def create_slots(self):
         for row in range(self.rows):

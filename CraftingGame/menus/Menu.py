@@ -1,9 +1,10 @@
 import pygame
 import CraftingGame.helper.color as color
+from CraftingGame.menus.Button import Button
 
 
 class Menu:
-    def __init__(self, x, y, message_menu,width=100, height=100, edge_spacing=10, menu_font_size=18, title_spacing=30, title="Default", active=False):
+    def __init__(self, x, y, message_menu, button_manager, width=100, height=100, edge_spacing=10, menu_font_size=18, title_spacing=30, title="Default", active=False):
         self.x = x
         self.y = y
         self.edge_spacing = edge_spacing
@@ -18,10 +19,13 @@ class Menu:
         self.font = pygame.font.SysFont("arial", self.title_spacing)
         self.active = active
         self.message_menu = message_menu
+        self.button_manager = button_manager
+        self.close_button = Button(self.x, self.y, self.title_spacing, self.title_spacing, "X", 18, color.black,
+                                   color.red, color.coralred, self.toggle_menu)
+        self.button_manager.add_button(self.close_button)
 
     def toggle_menu(self):
         self.active = not self.active
-        self.message_menu.add_message(f"Toggeled {self.title}!")
 
     def get_image(self):
         return self.image
