@@ -58,7 +58,7 @@ recipe_manager = RecipeManager(inventory, items_manager, message_menu)
 recipe_manager.load_recipes("./Recipes/recipes.json")
 
 # ---- create menus and menu manager --------------------------------------------------------
-crafting_menu = CraftingMenu(top_left[0], top_left[1], screen_width//2, screen_height//2, menu_spacing, menu_font_size, menu_title_spacing, "Herstellung", True, inventory, items_manager, message_menu, button_manager)
+crafting_menu = CraftingMenu(top_left[0], top_left[1], screen_width//2, screen_height//2, menu_spacing, menu_font_size, menu_title_spacing, "Herstellung", True, inventory, items_manager, message_menu, button_manager, recipe_manager)
 map_menu = Menu(top_right[0], top_right[1], message_menu, button_manager, screen_width//2, screen_height//2, menu_spacing, menu_font_size, menu_title_spacing, "Karte", True)
 
 menu_manager.add_menu(inventory)
@@ -69,17 +69,10 @@ menu_manager.add_menu(message_menu)
 # ---- Manipulate the Inventory --------------------------------------------------------
 for item in items_manager.items:
     if item.stackable:
-        inventory.add_item(item, 99)
+        inventory.add_item(item, 32)
     else:
         inventory.add_item(item, 1)
-
-# print(inventory.get_items())
-print(recipe_manager.get_recipes_by_ingredient("Ton"))
-# print(recipe_manager.can_craft(recipe_manager.get_recipe_by_name("Steinaxt")))
-# print(recipe_manager.crafting())
-recipe_manager.craft(recipe_manager.get_recipe_by_name("ungebrannte Tonschale"))
-recipe_manager.craft(recipe_manager.get_recipe_by_name("gebrannte Tonschale"))
-# print(inventory.get_items())
+print(inventory.get_items())
 
 # ---- Haupt-Schleife --------------------------------------------------------
 while running:

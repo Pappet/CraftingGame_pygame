@@ -22,13 +22,6 @@ class Inventory(Menu):
         self.cols = cols
         self.width = width
         self.height = height
-        # self.width = self.slot_size*self.cols + \
-        #    (self.slot_spacing*self.cols) - \
-        #    self.slot_spacing + (self.edge_spacing*2)
-
-        # self.height = self.slot_size*self.rows + \
-        #    (self.slot_spacing*self.rows) - self.slot_spacing + \
-        #    (self.edge_spacing*2) + self.title_spacing
 
         self.image = pygame.Surface((self.width, self.height))
         self.slots = []

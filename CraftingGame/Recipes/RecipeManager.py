@@ -1,4 +1,5 @@
 import json
+import math
 
 
 class RecipeManager:
@@ -30,7 +31,10 @@ class RecipeManager:
         if recipe in self.recipes:
             for item, amount in recipe["ingredients"].items():
                 if self.inventory.get_items().get(item, 0) < amount:
-                    print(f"Not enough Ingredients for {recipe['name']} in Inventory!")
+                    self.message_menu.add_message(f"Not enough Ingredients for {recipe['name']} in Inventory!")
+                    return False
+                elif self.inventory.get_free_inventory_space() < math.ceil(amount / self.inventory.max_stack_size):
+                    self.message_menu.add_message(f"Not enough Inventory Space for {recipe['name']}!")
                     return False
                 return True
         self.message_menu.add_message(f"This is an invalid Recipe!")
