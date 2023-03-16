@@ -15,11 +15,12 @@ class Button:
         self.callback = callback
 
     def draw(self, win):
-        mouse_pos = pygame.mouse.get_pos()
-        if self.x <= mouse_pos[0] <= self.x + self.width and self.y <= mouse_pos[1] <= self.y + self.height:
-            color = self.hover_color
-        else:
-            color = self.bg_color
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+
+        x_condition = self.x <= mouse_x <= self.x + self.width
+        y_condition = self.y <= mouse_y <= self.y + self.height
+
+        color = self.hover_color if x_condition and y_condition else self.bg_color
 
         pygame.draw.rect(win, color, (self.x, self.y, self.width, self.height))
 
@@ -30,9 +31,14 @@ class Button:
 
     def is_clicked(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_pos = pygame.mouse.get_pos()
-            if self.x <= mouse_pos[0] <= self.x + self.width and self.y <= mouse_pos[1] <= self.y + self.height:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+
+            x_condition = self.x <= mouse_x <= self.x + self.width
+            y_condition = self.y <= mouse_y <= self.y + self.height
+
+            if x_condition and y_condition:
                 if self.callback:
                     self.callback()
                 return True
+
         return False
