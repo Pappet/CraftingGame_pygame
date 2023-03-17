@@ -1,0 +1,133 @@
+[
+  {
+    "name": "Seil",
+    "ingredients": {
+      "Pflanzenfaser": 3
+    },
+    "results": {
+      "Seil": 1
+    }
+  },
+  {
+    "name": "Pfeil",
+    "ingredients": {
+      "Stock": 1,
+      "Stein": 1,
+      "Pflanzenfaser": 1
+    },
+    "results": {
+      "Pfeil": 4
+    }
+  },
+  {
+    "name": "Brot",
+    "ingredients": {
+      "Getreide": 3,
+      "Wasser": 1,
+      "Feuer": 1
+    },
+    "results": {
+      "Brot": 1
+    }
+  },
+  {
+    "name": "Knochenwerkzeug",
+    "ingredients": {
+      "Knochen": 3,
+      "Pflanzenfaser": 1
+    },
+    "results": {
+      "Knochenwerkzeug": 1
+    }
+  },
+  {
+    "name": "Glas",
+    "ingredients": {
+      "Sand": 2,
+      "Feuer": 1
+    },
+    "results": {
+      "Glas": 1
+    }
+  },
+  {
+    "name": "Salzwasser",
+    "ingredients": {
+      "Wasser": 1,
+      "Salz": 1
+    },
+    "results": {
+      "Salzwasser": 1
+    }
+  },
+  {
+    "name": "Papier",
+    "ingredients": {
+      "Pflanzenfaser": 3,
+      "Wasser": 1
+    },
+    "results": {
+      "Papier": 2
+    }
+  },
+  {
+    "name": "Fackel",
+    "ingredients": {
+      "Stock": 1,
+      "Pflanzenfaser": 1,
+      "Kohle": 1
+    },
+    "results": {
+      "Fackel": 2
+    }
+  },
+  {
+    "name": "Keramikziegel",
+    "ingredients": {
+      "Ton": 2,
+      "Feuer": 1
+    },
+    "results": {
+      "Keramikziegel": 2
+    }
+  },
+  {
+    "name": "Seilbrücke",
+    "ingredients": {
+      "Seil": 4,
+      "Holz": 4
+    },
+    "results": {
+      "Seilbrücke": 1
+    }
+  },
+  {
+    "name": "Stoff",
+    "ingredients": {
+      "Pflanzenfaser": 4
+    },
+    "results": {
+      "Stoff": 1
+    }
+  },
+  {
+    "name": "Schleifstein",
+    "ingredients": {
+      "Stein": 3,
+      "Holz": 1
+    },
+    "results": {
+      "Schleifstein": 1
+    }
+  },
+  {
+    "name": "Kohlenbecken",
+    "ingredients": {
+      "Stein": 3,
+      "Kohle": 2
+    },
+    "results": {
+      "Kohlenbecken": 1
+    }
+  }
+]

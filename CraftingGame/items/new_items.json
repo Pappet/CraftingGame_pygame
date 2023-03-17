@@ -1,0 +1,93 @@
+[
+  {
+    "name": "Seil",
+    "image_path": "./art/Seil.png",
+    "category": "COMPONENT",
+    "description": "Ein Seil ist ein langes, flexibles und starkes Material, das aus Pflanzenfasern hergestellt wird und zum Binden, Ziehen oder Klettern verwendet werden kann.",
+    "stackable": true
+  },
+  {
+    "name": "Pfeil",
+    "image_path": "./art/Pfeil.png",
+    "category": "AMMO",
+    "description": "Ein Pfeil ist ein schlanker, spitzer Gegenstand, der mit einem Bogen abgeschossen wird, um Ziele aus der Ferne zu treffen.",
+    "stackable": true
+  },
+  {
+    "name": "Brot",
+    "image_path": "./art/Brot.png",
+    "category": "FOOD",
+    "description": "Brot ist ein Grundnahrungsmittel, das aus Getreide, Wasser und Hitze hergestellt wird. Es ist nahrhaft und sättigend.",
+    "stackable": true
+  },
+  {
+    "name": "Knochenwerkzeug",
+    "image_path": "./art/Knochenwerkzeug.png",
+    "category": "TOOL",
+    "description": "Ein Knochenwerkzeug ist ein einfaches Werkzeug, das aus Knochen hergestellt wird. Es kann für verschiedene Zwecke verwendet werden, wie zum Beispiel zum Graben oder Schneiden.",
+    "stackable": false
+  },
+  {
+    "name": "Glas",
+    "image_path": "./art/Glas.png",
+    "category": "COMPONENT",
+    "description": "Glas ist ein transparentes und festes Material, das aus Sand und Hitze hergestellt wird. Es kann zum Bauen von Fenstern oder Behältern verwendet werden.",
+    "stackable": true
+  },
+  {
+    "name": "Salzwasser",
+    "image_path": "./art/Salzwasser.png",
+    "category": "RESOURCE",
+    "description": "Salzwasser ist Wasser, das Salz enthält. Es kommt natürlich in den Ozeanen vor und kann durch verschiedene Prozesse weiterverarbeitet werden.",
+    "stackable": true
+  },
+  {
+    "name": "Papier",
+    "image_path": "./art/Papier.png",
+    "category": "COMPONENT",
+    "description": "Papier ist ein dünnes, flexibles Material, das aus Pflanzenfasern hergestellt wird. Es kann zum Schreiben, Zeichnen oder Verpacken verwendet werden.",
+    "stackable": true
+  },
+  {
+    "name": "Fackel",
+    "image_path": "./art/Fackel.png",
+    "category": "TOOL",
+    "description": "Eine Fackel ist ein tragbares Licht, das aus einem brennenden Stock besteht. Es wird verwendet, um Licht in dunklen Umgebungen zu schaffen.",
+    "stackable": true
+  },
+  {
+    "name": "Keramikziegel",
+    "image_path": "./art/Keramikziegel.png",
+    "category": "COMPONENT",
+    "description": "Keramikziegel sind harte, gebrannte Tonblöcke, die zum Bauen von Gebäuden oder zum Verstärken von Strukturen verwendet werden können.",
+  "stackable": true
+  },
+  {
+  "name": "Seilbrücke",
+  "image_path": "./art/Seilbruecke.png",
+  "category": "STRUCTURE",
+  "description": "Eine Seilbrücke ist eine Brückenkonstruktion, die aus Seilen und Holz besteht und zum Überqueren von Flüssen oder Schluchten verwendet wird.",
+  "stackable": false
+  },
+  {
+  "name": "Stoff",
+  "image_path": "./art/Stoff.png",
+  "category": "COMPONENT",
+  "description": "Stoff ist ein weiches, flexibles Material, das aus Pflanzenfasern gewebt wird und zum Herstellen von Kleidung, Taschen oder anderen Textilprodukten verwendet werden kann.",
+  "stackable": true
+  },
+  {
+  "name": "Schleifstein",
+  "image_path": "./art/Schleifstein.png",
+  "category": "TOOL",
+  "description": "Ein Schleifstein ist ein Werkzeug, das aus Stein und Holz besteht und zum Schärfen von Klingen oder anderen Werkzeugen verwendet wird.",
+  "stackable": false
+  },
+  {
+  "name": "Kohlenbecken",
+  "image_path": "./art/Kohlenbecken.png",
+  "category": "TOOL",
+  "description": "Ein Kohlenbecken ist ein Behälter aus Stein, der Kohle hält und zum Erwärmen von Räumen, Kochen oder Schmelzen von Materialien verwendet werden kann.",
+  "stackable": false
+  }
+]
