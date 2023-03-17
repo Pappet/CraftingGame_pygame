@@ -1,10 +1,8 @@
 from typing import Tuple, Optional
-import math
 
 from CraftingGame.menus.Slot import Slot
 import pygame
 import CraftingGame.helper.color as color
-import CraftingGame.helper.pygame_text as text
 from CraftingGame.menus.Menu import Menu
 from CraftingGame.menus.Button import Button
 
@@ -103,54 +101,46 @@ class Inventory(Menu):
         ]
 
     def add_item(self, item, amount):
-        # Case 1: Item is stackable
         if item.stackable:
+            # Check if there is an existing stack with the same item
             for slot in self.slots:
-                # Add item to an existing slot with the same item id, if possible
-                if not slot.is_empty() and amount + slot.amount <= self.max_stack_size:
-                    if slot.item.id == item.id:
+                if not slot.is_empty() and slot.item.id == item.id:
+                    remaining_space = self.max_stack_size - slot.amount
+                    if remaining_space >= amount:
                         slot.add_item(item, amount)
                         return True
-                # Add item to an empty slot
+                    else:
+                        slot.add_item(item, remaining_space)
+                        amount -= remaining_space
+
+            # If there is remaining amount, try to add it to an empty slot or create new stacks
+            while amount > 0:
+                free_slot = self.get_free_slot()
+                if free_slot is not None:
+                    stack_size = min(amount, self.max_stack_size)
+                    free_slot.add_item(item, stack_size)
+                    amount -= stack_size
                 else:
-                    if slot.is_empty():
-                        if amount + slot.amount <= self.max_stack_size:
-                            slot.add_item(item, amount)
-                            return True
-                        else:
-                            # Add items to multiple slots if needed
-                            if self.get_free_inventory_space() >= math.ceil(amount / self.max_stack_size):
-                                amount_diff = amount
-                                while amount_diff > 0:
-                                    if amount_diff > self.max_stack_size:
-                                        next_slot = self.get_free_slot()
-                                        next_slot.add_item(item, self.max_stack_size)
-                                        amount_diff -= self.max_stack_size
-                                    else:
-                                        next_slot = self.get_free_slot()
-                                        next_slot.add_item(item, amount_diff)
-                                        amount_diff -= amount_diff
-                                        return True
-        # Case 2: Item is not stackable
+                    self.message_menu.add_message("Not enough free inventory space!")
+                    return False
         else:
-            # Add a single item to an empty slot
             if amount == 1:
-                for slot in self.slots:
-                    if slot.is_empty():
-                        slot.add_item(item, 1)
-                        return True
-            # Add multiple items to separate slots
-            else:
-                if self.get_free_inventory_space() > amount:
-                    for i in range(amount):
-                        for slot in self.slots:
-                            if slot.is_empty():
-                                slot.add_item(item, 1)
-                                break
+                free_slot = self.get_free_slot()
+                if free_slot is not None:
+                    free_slot.add_item(item, 1)
                     return True
-                # Cannot add items, not enough space in the inventory
                 else:
-                    self.message_menu.add_message("To many items for the inventory!")
+                    self.message_menu.add_message("Not enough free inventory space!")
+                    return False
+            else:
+                if self.get_free_inventory_space() >= amount:
+                    for i in range(amount):
+                        free_slot = self.get_free_slot()
+                        if free_slot is not None:
+                            free_slot.add_item(item, 1)
+                    return True
+                else:
+                    self.message_menu.add_message("Not enough free inventory space!")
                     return False
         return False
 
