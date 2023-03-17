@@ -39,10 +39,17 @@ class Inventory(Menu):
     def create_slots(self):
         for row in range(self.rows):
             for col in range(self.cols):
-                x = self.x + col * (self.slot_size +
-                                    self.slot_spacing) + self.edge_spacing
-                y = self.y + row * (self.slot_size +
-                                    self.slot_spacing) + self.title_spacing + self.edge_spacing
+                x = (
+                        self.x
+                        + col * (self.slot_size + self.slot_spacing)
+                        + self.edge_spacing
+                )
+                y = (
+                        self.y
+                        + row * (self.slot_size + self.slot_spacing)
+                        + self.title_spacing
+                        + self.edge_spacing
+                )
                 slot = Slot(x, y, self.slot_size, self.slot_size)
                 self.slots.append(slot)
 
@@ -53,7 +60,7 @@ class Inventory(Menu):
         return self.slots.index(slot)
 
     def get_slot_at_position(self, pos: Tuple[int, int]) -> Optional[Slot]:
-        for i, slot in enumerate(self.slots):
+        for slot in self.slots:
             if slot.rect.collidepoint(pos):
                 return slot
         return None
@@ -72,45 +79,46 @@ class Inventory(Menu):
         return len(self.slots)
 
     def get_free_inventory_space(self):
-        index = 0
-        for slot in self.slots:
-            if slot.is_empty():
-                index += 1
-        return index
+        return sum(1 for slot in self.slots if slot.is_empty())
 
     def get_items(self):
         items = {}
         for slot in self.slots:
             if not slot.is_empty():
-                if slot.get_item_in_slot().get_name() not in items:
-                    items[slot.get_item_in_slot().get_name()] = slot.amount
+                item_name = slot.get_item_in_slot().get_name()
+                if item_name not in items:
+                    items[item_name] = slot.amount
                 else:
-                    items[slot.get_item_in_slot().get_name()] += slot.amount
+                    items[item_name] += slot.amount
         return items
 
     def get_item_amount(self, name):
         return self.get_items().get(name, 0)
 
     def get_slots_with_item(self, item):
-        slots = []
-        for slot in self.slots:
-            if not slot.is_empty() and slot.get_item_in_slot().id == item.id:
-                slots.append(slot)
-        return slots
+        return [
+            slot
+            for slot in self.slots
+            if not slot.is_empty() and slot.get_item_in_slot().id == item.id
+        ]
 
     def add_item(self, item, amount):
+        # Case 1: Item is stackable
         if item.stackable:
             for slot in self.slots:
+                # Add item to an existing slot with the same item id, if possible
                 if not slot.is_empty() and amount + slot.amount <= self.max_stack_size:
-                    if slot.item.id == item.id and not None:
+                    if slot.item.id == item.id:
                         slot.add_item(item, amount)
                         return True
+                # Add item to an empty slot
                 else:
                     if slot.is_empty():
                         if amount + slot.amount <= self.max_stack_size:
                             slot.add_item(item, amount)
                             return True
                         else:
+                            # Add items to multiple slots if needed
                             if self.get_free_inventory_space() >= math.ceil(amount / self.max_stack_size):
                                 amount_diff = amount
                                 while amount_diff > 0:
@@ -123,12 +131,15 @@ class Inventory(Menu):
                                         next_slot.add_item(item, amount_diff)
                                         amount_diff -= amount_diff
                                         return True
+        # Case 2: Item is not stackable
         else:
+            # Add a single item to an empty slot
             if amount == 1:
                 for slot in self.slots:
                     if slot.is_empty():
                         slot.add_item(item, 1)
                         return True
+            # Add multiple items to separate slots
             else:
                 if self.get_free_inventory_space() > amount:
                     for i in range(amount):
@@ -137,71 +148,64 @@ class Inventory(Menu):
                                 slot.add_item(item, 1)
                                 break
                     return True
+                # Cannot add items, not enough space in the inventory
                 else:
                     self.message_menu.add_message("To many items for the inventory!")
                     return False
         return False
 
     def remove_item(self, item, amount):
+        # Check if there are enough items in the inventory
+        if self.get_item_amount(item.name) < amount:
+            self.message_menu.add_message("Not enough Items in Inventory")
+            return False
+
+        # Get the list of slots containing the item
+        slots_with_item = reversed(self.get_slots_with_item(item))
+
+        # Case 1: Item is stackable
         if item.stackable:
-            if self.get_item_amount(item.name) >= amount:
-                if amount > self.max_stack_size:
-                    amount_diff = amount
-                    for slot in reversed(self.get_slots_with_item(item)):
-                        if amount_diff > self.max_stack_size:
-                            self.message_menu.add_message(f"{slot.item.name} removed.")
-                            slot.remove_item(self.max_stack_size)
-                            amount_diff -= self.max_stack_size
-                        else:
-                            slot.remove_item(amount_diff)
-                    return True
+            remaining_amount = amount
+            for slot in slots_with_item:
+                # Remove as many items as possible from the current slot
+                if remaining_amount > slot.amount:
+                    remaining_amount -= slot.amount
+                    slot.remove_item(slot.amount)
                 else:
-                    for slot in reversed(self.slots):
-                        if not slot.is_empty():
-                            if slot.item.id == item.id:
-                                slot.remove_item(amount)
-                                return True
-            else:
-                self.message_menu.add_message("Not enough Items in Inventory")
-                return False
+                    slot.remove_item(remaining_amount)
+                    return True
+
+        # Case 2: Item is not stackable
         else:
-            if self.get_item_amount(item.name) >= amount:
-                if amount > 1:
-                    # More than 1 item to remove
-                    amount_diff = amount
-                    for slot in reversed(self.get_slots_with_item(item)):
-                        if amount_diff > 0:
-                            slot.remove_item(1)
-                            amount_diff -= 1
-                        else:
-                            break
-                    return True
+            remaining_amount = amount
+            for slot in slots_with_item:
+                # Remove one item from each slot until the desired amount is removed
+                if remaining_amount > 0:
+                    slot.remove_item(1)
+                    remaining_amount -= 1
                 else:
-                    # Only 1 item to remove
-                    for slot in reversed(self.slots):
-                        if not slot.is_empty():
-                            if slot.get_item_in_slot().id == item.id:
-                                slot.remove_item(1)
-                                return True
-            else:
-                self.message_menu.add_message("Not enough Items in Inventory")
-                return False
+                    break
+            return True
+
         return False
 
     def move_item(self, from_slot: Slot, to_slot: Slot) -> None:
         from_item = from_slot.item
         to_item = to_slot.item
+
         if from_item is not None:
+            # Case 1: Move item to an empty slot
             if to_slot.is_empty():
-                # Move item from source slot to target slot
                 to_slot.item = from_item
                 from_slot.item = None
                 to_slot.amount = from_slot.amount
                 from_slot.amount = 0
                 self.message_menu.add_message(f"Moved {to_slot.item.name} ({to_slot.amount}) to an empty slot.")
+
+            # Case 2: Merge stackable items with the same id
             elif from_item.id == to_item.id and from_item.stackable:
-                # Increment item count if the items are stackable and have the same id
                 total_amount = from_slot.amount + to_slot.amount
+
                 if total_amount <= self.max_stack_size:
                     to_slot.amount = total_amount
                     from_slot.item = None
@@ -211,42 +215,111 @@ class Inventory(Menu):
                     diff = total_amount - self.max_stack_size
                     to_slot.amount = self.max_stack_size
                     from_slot.amount = diff
-                    self.message_menu.add_message(f"Added {self.max_stack_size} of {from_item.name} to the slot. {diff} remaining in the other slot.")
+                    self.message_menu.add_message(
+                        f"Added {self.max_stack_size} of {from_item.name} to the slot. {diff} remaining in the other slot.")
+
+            # Case 3: Swap items between slots
             else:
-                # Swap items between source slot and target slot
-                to_slot_amount_buffer = to_slot.amount
-                from_slot_amount_buffer = from_slot.amount
+                to_slot_buffer_amount = to_slot.amount
+                from_slot_buffer_amount = from_slot.amount
 
                 to_slot.item = from_item
-                to_slot.amount = from_slot_amount_buffer
+                to_slot.amount = from_slot_buffer_amount
                 from_slot.item = to_item
-                from_slot.amount = to_slot_amount_buffer
-                self.message_menu.add_message(f"Swapped {from_item.name} ({from_slot_amount_buffer}) with {to_item.name} ({to_slot_amount_buffer})")
+                from_slot.amount = to_slot_buffer_amount
+                self.message_menu.add_message(
+                    f"Swapped {from_item.name} ({from_slot_buffer_amount}) with {to_item.name} ({to_slot_buffer_amount})")
 
     def draw(self, surface):
         if self.active:
+            # Fill the background and draw it on the surface
             self.image.fill(self.bg_color)
             bg_rect = self.image.get_rect(topleft=(self.x, self.y))
             pygame.draw.rect(surface, self.bg_color, bg_rect)
 
-            # draw the Inventory title with additional information
+            # Draw the Inventory title with additional information
             pygame.draw.rect(surface, color.gray, (self.x, self.y, self.width, self.title_spacing))
-            title_surface = self.font.render(
-                f"{self.title} ({self.get_free_inventory_space()} / {self.get_inventory_space()})", True, color.black)
-            surface.blit(title_surface, (self.x - (title_surface.get_width() / 2) +
-                                         (self.width / 2) - (self.edge_spacing / 2), self.y + (self.edge_spacing / 2)))
+            title_text = f"{self.title} ({self.get_free_inventory_space()} / {self.get_inventory_space()})"
+            title_surface = self.font.render(title_text, True, color.black)
 
-            # draw the slots
+            # Calculate title position
+            title_x = self.x + (self.width - title_surface.get_width()) // 2
+            title_y = self.y + (self.title_spacing - title_surface.get_height()) // 2
+            surface.blit(title_surface, (title_x, title_y))
+
+            # Draw the slots
             for slot in self.slots:
                 slot.draw(surface)
 
             # Render the dragging image surface at the mouse position
             if self.dragging_image is not None:
-                mouse_pos = pygame.mouse.get_pos()
-                x, y = mouse_pos[0] - self.dragging_image.get_width() / 2, mouse_pos[
-                    1] - self.dragging_image.get_height() / 2
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                x, y = mouse_x - self.dragging_image.get_width() // 2, mouse_y - self.dragging_image.get_height() // 2
                 surface.blit(self.dragging_image, (x, y))
 
+    def update(self, event):
+        if event.type == pygame.KEYDOWN:
+            if self.active:
+                # Testing the inventory - add and remove a test item
+                if event.key == pygame.K_a:
+                    # Add an item to the inventory if there is free space and a selected slot with an item
+                    if self.get_free_inventory_space() > 0 and not self.selected_slot.is_empty():
+                        self.add_item(self.selected_slot.item, 1)
+                        self.message_menu.add_message(f"Added {self.selected_slot.item.name} to inventory")
+                elif event.key == pygame.K_r:
+                    # Remove an item from the inventory if there is an item in a selected slot
+                    if self.get_free_inventory_space() < self.get_inventory_space() and self.selected_slot:
+                        if not self.remove_item(self.selected_slot.get_item_in_slot(), 1):
+                            self.selected_slot = None
+            # Toggle the inventory menu visibility
+            if event.key == pygame.K_x:
+                self.toggle_menu()
+                if not self.active and self.selected_slot:
+                    self.selected_slot.selected = False
+                    self.selected_slot = None
+
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if self.active and event.button == 1:  # Check if left mouse button was pressed
+                pos = pygame.mouse.get_pos()
+                clicked_slot = self.get_slot_at_position(pos)
+
+                # Select the clicked slot and set the dragging image if the slot has an item
+                if clicked_slot is not None:
+                    self.selected_slot = clicked_slot
+                    if not clicked_slot.is_empty():
+                        self.dragging_image = clicked_slot.get_item_in_slot().get_image()
+
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:
+                pos = pygame.mouse.get_pos()
+                released_slot = self.get_slot_at_position(pos)
+
+                # Move the item from the selected slot to the released slot if they are different slots and the dragging image exists
+                if released_slot is not None and released_slot != self.selected_slot and self.dragging_image:
+                    self.move_item(self.selected_slot, released_slot)
+                    self.selected_slot.selected = False
+                    released_slot.selected = True
+                    self.selected_slot = released_slot
+                self.dragging_image = None
+
+        elif event.type == pygame.MOUSEMOTION:
+            pos = pygame.mouse.get_pos()
+            hovering_slot = self.get_slot_at_position(pos)
+
+            # Update the hovering slot status when dragging an item
+            if self.dragging_image is not None:
+                if self.hovering_slot is None and hovering_slot is not None:
+                    self.hovering_slot = hovering_slot
+                    self.hovering_slot.hovering = True
+                elif self.hovering_slot != hovering_slot:
+                    self.hovering_slot.hovering = False
+                    self.hovering_slot = hovering_slot
+            else:
+                if self.hovering_slot is not None:
+                    self.hovering_slot.hovering = False
+                    self.hovering_slot = None
+
+    """
     def update(self, event):
         if event.type == pygame.KEYDOWN:
             if self.active:
@@ -318,3 +391,4 @@ class Inventory(Menu):
                 if self.hovering_slot is not None:
                     self.hovering_slot.hovering = False
                     self.hovering_slot = None
+    """
